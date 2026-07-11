@@ -1,0 +1,139 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Page not found.",
+    "back_to_shopping": "Back to shopping"
+  },
+  "blog": {
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post",
+    "comment_form_title": "Add a comment"
+  },
+  "cart": {
+    "checkout": "Checkout",
+    "title": "Your Bag",
+    "update": "Update",
+    "remove": "Remove",
+    "close": "Close",
+    "empty": "Your bag is empty.",
+    "continue_shopping": "Continue Shopping",
+    "subtotal": "Subtotal",
+    "quantity": "Quantity",
+    "taxes_note": "Taxes and shipping calculated at checkout.",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "you_may_also_like": "You May Also Like"
+  },
+  "customers": {
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "title": "Login"
+    }
+  },
+  "collections": {
+    "title": "Collections"
+  },
+  "contact": {
+    "email": "Email",
+    "studio": "Studio",
+    "hours": "Hours",
+    "success_title": "Message sent.",
+    "success_body": "Thank you — we'll be in touch shortly.",
+    "name_label": "Name",
+    "name_placeholder": "Your full name",
+    "email_label": "Email",
+    "email_placeholder": "you@example.com",
+    "message_label": "Message",
+    "message_placeholder": "How can we help?",
+    "submit": "Send Message"
+  },
+  "footer": {
+    "pages": "Explore",
+    "support": "Customer Care",
+    "contact": "Contact",
+    "social": "Follow Us",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "newsletter": "Newsletter",
+    "newsletter_text": "Get early access to new batches and members-only offers.",
+    "newsletter_placeholder": "Your email",
+    "newsletter_submit": "Subscribe",
+    "newsletter_success": "You're on the list — thank you."
+  },
+  "general": {
+    "previous": "Previous",
+    "next": "Next",
+    "menu": "Menu",
+    "close_menu": "Close menu",
+    "maison": "Maison",
+    "collections": "Collections",
+    "rating_out_of_5": "{{ rating }} out of 5",
+    "based_on_reviews": "Based on {{ count }} reviews"
+  },
+  "quiz": {
+    "start": "Start the Quiz",
+    "retake": "Retake the Quiz",
+    "shop_this_scent": "Shop This Scent",
+    "no_match": "We couldn't find a perfect match — explore the full collection.",
+    "browse_all": "Browse All Fragrances",
+    "step_label": "Step {current} of {total}",
+    "find_your_fragrance": "Find Your Fragrance"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "use_at_checkout": "Use this gift card at checkout"
+  },
+  "password": {
+    "title": "This shop is private",
+    "password": "Password",
+    "enter": "Enter"
+  },
+  "product": {
+    "inspired_by_html": "Inspired by {{ name }}",
+    "no_collection_selected": "Select a collection to display products here.",
+    "view_image": "View image",
+    "top_notes": "Top Notes",
+    "heart_notes": "Heart Notes",
+    "base_notes": "Base Notes",
+    "longevity": "Longevity",
+    "projection": "Projection",
+    "sillage": "Sillage",
+    "add_to_bag": "Add to Bag",
+    "sold_out": "Sold Out",
+    "why_youll_love_it": "Why You’ll Love It",
+    "perfect_for": "Perfect For",
+    "how_to_apply": "How to Apply",
+    "product_details": "Product Details",
+    "brand": "Brand",
+    "collection": "Collection",
+    "size": "Size",
+    "application": "Application",
+    "gender": "Gender",
+    "ingredients": "Ingredients",
+    "inspiration": "Inspiration",
+    "shipping_and_returns": "Shipping & Returns",
+    "disclaimer_html": "{{ title }} by Saint Samson is an independently crafted fragrance oil inspired by {{ inspired_by }}. Saint Samson is not affiliated with, endorsed by, or associated with the original fragrance house. All trademarks belong to their respective owners and are referenced solely for fragrance comparison purposes.",
+    "trust_shipping": "Free Shipping",
+    "trust_packaging": "Carefully Packed",
+    "trust_support": "Active Support",
+    "view_details": "View Details"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search articles, pages, or products",
+    "submit": "Search",
+    "no_results_html": "No results found for {{ terms }}",
+    "results_for_html": "{{ count }} results found for {{ terms }}"
+  }
+}

@@ -1,0 +1,197 @@
+{% doc %}
+  Renders a fixed floating action button linking to the homepage's fragrance
+  quiz section. Also powers smooth-scrolling for any other link on the page
+  that points at the same section (e.g. a header nav link), via a single
+  delegated click listener.
+
+  @example
+  {% render 'quiz-fab' %}
+{% enddoc %}
+
+<a
+  href="{{ routes.root_url }}#fragrance-quiz-section"
+  class="quiz-fab"
+  data-quiz-scroll-link
+  aria-label="{{ 'quiz.find_your_fragrance' | t }}"
+>
+  <span class="quiz-fab__icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3l1.8 5.6L19.5 10.5l-5.7 1.9L12 18l-1.8-5.6-5.7-1.9 5.7-1.9L12 3Z" />
+      <path d="M19 15l0.7 2.1L22 18l-2.3 0.9L19 21l-0.7-2.1L16 18l2.3-0.9L19 15Z" />
+    </svg>
+    <span class="quiz-fab__spark quiz-fab__spark--1"></span>
+    <span class="quiz-fab__spark quiz-fab__spark--2"></span>
+    <span class="quiz-fab__spark quiz-fab__spark--3"></span>
+  </span>
+  <span class="quiz-fab__label">{{ 'quiz.find_your_fragrance' | t }}</span>
+</a>
+
+{% stylesheet %}
+  .quiz-fab {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    text-decoration: none;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+    animation: quiz-fab-pulse 2.6s ease-in-out infinite;
+    overflow: hidden;
+    transition: width 0.35s ease, transform 0.2s ease;
+  }
+
+  .quiz-fab:hover,
+  .quiz-fab:focus-visible {
+    width: 220px;
+    transform: translateY(-2px);
+  }
+
+  @keyframes quiz-fab-pulse {
+    0%, 100% {
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4), 0 0 0 0 color-mix(in srgb, var(--color-gold) 45%, transparent);
+    }
+    50% {
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4), 0 0 0 10px color-mix(in srgb, var(--color-gold) 0%, transparent);
+    }
+  }
+
+  .quiz-fab__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+  }
+
+  .quiz-fab:hover .quiz-fab__icon,
+  .quiz-fab:focus-visible .quiz-fab__icon {
+    opacity: 0;
+  }
+
+  .quiz-fab__icon svg {
+    animation: quiz-fab-twinkle 2.6s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes quiz-fab-twinkle {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.18) rotate(10deg);
+    }
+  }
+
+  .quiz-fab__spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-background);
+    opacity: 0;
+    animation: quiz-fab-spark 2.6s ease-in-out infinite;
+  }
+
+  .quiz-fab__spark--1 {
+    top: -6px;
+    right: -8px;
+    animation-delay: 0.2s;
+  }
+
+  .quiz-fab__spark--2 {
+    bottom: -4px;
+    left: -10px;
+    width: 4px;
+    height: 4px;
+    animation-delay: 0.9s;
+  }
+
+  .quiz-fab__spark--3 {
+    top: 2px;
+    left: -14px;
+    width: 3px;
+    height: 3px;
+    animation-delay: 1.6s;
+  }
+
+  @keyframes quiz-fab-spark {
+    0%, 80%, 100% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .quiz-fab__label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s ease 0.1s;
+  }
+
+  .quiz-fab:hover .quiz-fab__label,
+  .quiz-fab:focus-visible .quiz-fab__label {
+    opacity: 1;
+  }
+
+  @media (max-width: 600px) {
+    .quiz-fab {
+      right: 1.25rem;
+      bottom: 1.25rem;
+      width: 56px;
+      height: 56px;
+    }
+
+    .quiz-fab:hover,
+    .quiz-fab:focus-visible {
+      width: 200px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href*="#fragrance-quiz-section"]');
+    if (!link) return;
+
+    const target = document.getElementById('fragrance-quiz-section');
+    if (!target) return;
+
+    e.preventDefault();
+
+    const mobileNav = document.querySelector('[data-mobile-nav]');
+    if (mobileNav && mobileNav.classList.contains('is-open')) {
+      mobileNav.classList.remove('is-open');
+      const backdrop = document.querySelector('.site-header__nav-backdrop');
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.documentElement.style.overflow = '';
+    }
+
+    const header = document.querySelector('.site-header');
+    const offset = header ? header.getBoundingClientRect().height + 16 : 16;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+{% endjavascript %}

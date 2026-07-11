@@ -1,0 +1,76 @@
+<div class="collection-banner">
+  {%- if section.settings.eyebrow != blank -%}
+    <div class="collection-banner__eyebrow">{{ section.settings.eyebrow }}</div>
+  {%- endif -%}
+  <h1 class="collection-banner__heading">{{ section.settings.heading }}</h1>
+  {%- assign description = section.settings.description -%}
+  {%- if description != blank -%}
+    <div class="collection-banner__description">{{ description }}</div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .collection-banner {
+    padding: 4rem 0 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .collection-banner__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .collection-banner__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    margin: 0 0 1rem;
+  }
+
+  .collection-banner__description {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    max-width: 520px;
+    margin: 0;
+  }
+
+  @media (max-width: 700px) {
+    .collection-banner__heading {
+      font-size: 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collection_banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Discover"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Our Signature Fragrances"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "Small-batch fragrance oils, hand-blended for character that lasts long after the room has emptied."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.collection_banner"
+    }
+  ]
+}
+{% endschema %}

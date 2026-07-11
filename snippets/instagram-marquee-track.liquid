@@ -1,0 +1,14 @@
+{% doc %}
+  Renders one pass of Instagram tile blocks. Rendered twice by the parent
+  section back-to-back so the CSS marquee animation (translateX(-50%)) loops
+  seamlessly without a visible seam.
+
+  @param blocks - The section's blocks to render as tiles
+
+  @example
+  {% render 'instagram-marquee-track', blocks: section.blocks %}
+{% enddoc %}
+
+{%- for block in blocks -%}
+  {% render block %}
+{%- endfor -%}

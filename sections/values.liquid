@@ -1,0 +1,45 @@
+<div class="values">
+  <div class="values__grid">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .values {
+    padding: 5.625rem 0 8.125rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .values__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3.125rem;
+  }
+
+  @media (max-width: 700px) {
+    .values__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.values",
+  "blocks": [
+    {
+      "type": "value"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.values",
+      "blocks": [
+        { "type": "value", "settings": { "number": "01", "title": "No Shortcuts", "body": "Every ingredient is sourced directly, never through a fragrance house's stock blends." } },
+        { "type": "value", "settings": { "number": "02", "title": "Small Batches", "body": "No batch exceeds 200 bottles. When it's gone, it's gone until the next run." } },
+        { "type": "value", "settings": { "number": "03", "title": "One Signature", "body": "We'd rather perfect nine scents than release ninety mediocre ones." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

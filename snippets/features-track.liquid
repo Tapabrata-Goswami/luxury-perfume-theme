@@ -1,0 +1,14 @@
+{% doc %}
+  Renders one pass of feature blocks in a horizontal row. Rendered twice by
+  the parent section back-to-back so the CSS marquee animation
+  (translateX(-50%)) loops seamlessly without a visible seam.
+
+  @param blocks - The section's blocks to render
+
+  @example
+  {% render 'features-track', blocks: section.blocks %}
+{% enddoc %}
+
+{%- for block in blocks -%}
+  {% render block %}
+{%- endfor -%}

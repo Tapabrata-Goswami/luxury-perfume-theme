@@ -1,0 +1,155 @@
+{% doc %}
+  Renders a single numbered step in the "how to use" ritual grid.
+
+  @example
+  {% content_for 'block', type: 'step', id: 'step-1' %}
+{% enddoc %}
+
+<div class="step" {{ block.shopify_attributes }}>
+  {%- if block.settings.icon != 'none' -%}
+    <svg class="step__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      {%- case block.settings.icon -%}
+        {%- when 'droplet' -%}
+          <path d="M12 4c-2.5 3-4 5.6-4 7.8a4 4 0 0 0 8 0C16 9.6 14.5 7 12 4Z" />
+          <path d="M6 19h12" />
+        {%- when 'hourglass' -%}
+          <path d="M6 3h12" />
+          <path d="M6 21h12" />
+          <path d="M7 3c0 3.5 2.2 5.3 5 6-2.8.7-5 2.5-5 6" />
+          <path d="M17 3c0 3.5-2.2 5.3-5 6 2.8.7 5 2.5 5 6" />
+        {%- when 'refresh' -%}
+          <path d="M4 12a8 8 0 0 1 14-5.3" />
+          <path d="M20 12a8 8 0 0 1-14 5.3" />
+          <path d="M18 4v4h-4" />
+          <path d="M6 20v-4h4" />
+      {%- endcase -%}
+    </svg>
+  {%- endif -%}
+  <div class="step__number">{{ block.settings.number }}</div>
+  <div class="step__title">{{ block.settings.title }}</div>
+  <div class="step__body">{{ block.settings.body }}</div>
+</div>
+
+{% stylesheet %}
+  .step {
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  .step__icon {
+    display: block;
+    margin: 0 auto 1rem;
+  }
+
+  .step__number {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-background);
+    border: 1px solid var(--color-gold-dark);
+    color: var(--color-gold);
+    font-family: var(--font-heading--family);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+
+  .step__title {
+    font-size: 17px;
+    margin-bottom: 0.625rem;
+  }
+
+  .step__body {
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 700px) {
+    .step {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      column-gap: 1.25rem;
+      row-gap: 0;
+      text-align: left;
+      padding: 0;
+    }
+
+    .step__icon {
+      grid-column: 1;
+      grid-row: 1;
+      margin: 0 auto;
+    }
+
+    .step__number {
+      grid-column: 1;
+      grid-row: 2;
+      width: 44px;
+      height: 44px;
+      font-size: 16px;
+      margin: 0.625rem auto 0;
+    }
+
+    .step__title {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: center;
+      margin-bottom: 0;
+    }
+
+    .step__body {
+      grid-column: 2;
+      grid-row: 2;
+      margin-top: 0.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.step",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:labels.icon",
+      "options": [
+        { "value": "none", "label": "t:options.icon.none" },
+        { "value": "droplet", "label": "t:options.icon.droplet" },
+        { "value": "hourglass", "label": "t:options.icon.hourglass" },
+        { "value": "refresh", "label": "t:options.icon.refresh" }
+      ],
+      "default": "droplet"
+    },
+    {
+      "type": "text",
+      "id": "number",
+      "label": "t:labels.number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Step title"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "Step description."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.step",
+      "settings": {
+        "icon": "droplet"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,113 @@
+{% doc %}
+  Renders a single icon + title tile for the features row.
+
+  @example
+  {% content_for 'block', type: 'feature', id: 'feature-1' %}
+{% enddoc %}
+
+<div class="feature" {{ block.shopify_attributes }}>
+  <div class="feature__icon-badge">
+    <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      {%- case block.settings.icon -%}
+        {%- when 'hourglass' -%}
+          <path d="M6 3h12" />
+          <path d="M6 21h12" />
+          <path d="M7 3c0 3.5 2.2 5.3 5 6-2.8.7-5 2.5-5 6" />
+          <path d="M17 3c0 3.5-2.2 5.3-5 6 2.8.7 5 2.5 5 6" />
+        {%- when 'droplet-slash' -%}
+          <path d="M12 2s-6.5 8-6.5 12.5a6.5 6.5 0 0 0 13 0C18.5 10 12 2 12 2Z" />
+          <path d="M4.5 3.5l15 17" />
+        {%- when 'gem' -%}
+          <path d="M6 3h12l3 5-9 13L3 8Z" />
+          <path d="M3 8h18" />
+        {%- when 'plane' -%}
+          <path d="M3 12l18-8-8 18-2-8-8-2Z" />
+        {%- when 'box' -%}
+          <path d="M3 8l9-5 9 5-9 5-9-5Z" />
+          <path d="M3 8v8l9 5 9-5V8" />
+          <path d="M12 13v8" />
+        {%- when 'sparkle' -%}
+          <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+          <path d="M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18" />
+      {%- endcase -%}
+    </svg>
+  </div>
+  <div class="feature__title">{{ block.settings.title }}</div>
+</div>
+
+{% stylesheet %}
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 0 0 auto;
+    width: 160px;
+  }
+
+  .feature__icon-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--color-background);
+    margin-bottom: 0.875rem;
+    transition: transform 0.25s ease;
+  }
+
+  .feature:hover .feature__icon-badge {
+    transform: scale(1.06);
+  }
+
+  .feature__icon {
+    stroke: var(--color-background);
+  }
+
+  .feature__title {
+    color: var(--color-background);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .feature {
+      width: 130px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.feature",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:labels.icon",
+      "options": [
+        { "value": "hourglass", "label": "t:options.icon.hourglass" },
+        { "value": "droplet-slash", "label": "t:options.icon.droplet_slash" },
+        { "value": "gem", "label": "t:options.icon.gem" },
+        { "value": "plane", "label": "t:options.icon.plane" },
+        { "value": "box", "label": "t:options.icon.box" },
+        { "value": "sparkle", "label": "t:options.icon.sparkle" }
+      ],
+      "default": "hourglass"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Feature"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.feature"
+    }
+  ]
+}
+{% endschema %}

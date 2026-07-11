@@ -1,0 +1,120 @@
+<div class="story-split">
+  <div class="story-split__image">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 900 | image_tag: sizes: '45vw', class: 'story-split__img', alt: section.settings.image.alt | default: '' }}
+    {%- else -%}
+      <div class="story-split__placeholder">{{ section.settings.placeholder_label }}</div>
+    {%- endif -%}
+  </div>
+
+  <div class="story-split__content">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="story-split__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.body_1 != blank -%}
+      <p class="story-split__body">{{ section.settings.body_1 }}</p>
+    {%- endif -%}
+    {%- if section.settings.body_2 != blank -%}
+      <p class="story-split__body">{{ section.settings.body_2 }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .story-split {
+    padding: 7.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4.375rem;
+    align-items: center;
+  }
+
+  .story-split__image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .story-split__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .story-split__placeholder {
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(135deg, #1a1713, #1a1713 14px, #221e18 14px, #221e18 28px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .story-split__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    margin: 0 0 1.375rem;
+  }
+
+  .story-split__body {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 460px;
+    margin: 0 0 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .story-split {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.story_split",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_label",
+      "label": "t:labels.placeholder_label",
+      "default": "Atelier / lab photo"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Founded in 2019, in a single room."
+    },
+    {
+      "type": "textarea",
+      "id": "body_1",
+      "label": "t:labels.body_1",
+      "default": "Saint Samson started as one perfumer's obsession with capturing the world's most iconic scents in concentrated, alcohol-free oils. Three years and two hundred failed batches later, the first collection was born."
+    },
+    {
+      "type": "textarea",
+      "id": "body_2",
+      "label": "t:labels.body_2",
+      "default": "Today every bottle is still blended by hand, numbered, and finished within the same studio the brand was founded in."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.story_split"
+    }
+  ]
+}
+{% endschema %}

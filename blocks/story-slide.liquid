@@ -1,0 +1,67 @@
+{% doc %}
+  Renders a single circular photo bubble in the image-with-text cluster
+  collage. This block only fills whatever container it's placed in — size
+  and position for each slot is controlled by the parent section, which
+  wraps each rendered block in its own `.image-with-text__slot--N`
+  positioned container, so the cluster always reads as one cohesive
+  arrangement regardless of how the block's own markup gets rendered.
+
+  @example
+  {% content_for 'block', type: 'story-slide', id: 'story-slide-1' %}
+{% enddoc %}
+
+<div class="story-slide" {{ block.shopify_attributes }}>
+  {%- if block.settings.image != blank -%}
+    {{ block.settings.image | image_url: width: 600 | image_tag: sizes: '25vw', class: 'story-slide__img', alt: block.settings.image.alt | default: '' }}
+  {%- elsif block.settings.fallback_asset != blank -%}
+    <img
+      class="story-slide__img"
+      src="{{ block.settings.fallback_asset | asset_url }}"
+      alt=""
+      width="600"
+      height="600"
+      loading="lazy"
+    >
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .story-slide {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1.5px solid var(--color-gold);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  }
+
+  .story-slide__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.story_slide",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "t:labels.fallback_asset",
+      "info": "t:labels.fallback_asset_info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.story_slide"
+    }
+  ]
+}
+{% endschema %}

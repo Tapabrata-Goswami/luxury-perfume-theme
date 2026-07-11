@@ -1,0 +1,25 @@
+{% style %}
+  :root {
+    --font-primary--family: 'Jost', sans-serif;
+    --font-heading--family: 'Cormorant Garamond', serif;
+    --page-width: {{ settings.max_page_width }};
+    --page-margin: {{ settings.min_page_margin }}px;
+    --color-background: {{ settings.background_color }};
+    --color-foreground: {{ settings.foreground_color }};
+    --color-gold: {{ settings.gold_color }};
+    --color-gold-dark: {{ settings.gold_dark_color }};
+    --color-muted: {{ settings.muted_color }};
+    --color-secondary-text: {{ settings.secondary_text_color }};
+    --color-surface: {{ settings.surface_color }};
+    --color-surface-dark: {{ settings.surface_dark_color }};
+    --color-border: {{ settings.gold_color | color_modify: 'alpha', 0.15 }};
+    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --icon-stroke-width: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    :root {
+      --page-margin: {{ settings.min_page_margin | at_most: 24 }}px;
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,273 @@
+<div class="contact">
+  <div class="contact__info">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="contact__eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="contact__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <p class="contact__body">{{ section.settings.body }}</p>
+    {%- endif -%}
+
+    <div class="contact__details">
+      {%- if section.settings.email != blank -%}
+        <div class="contact__detail">
+          <div class="contact__detail-label">{{ 'contact.email' | t }}</div>
+          <div class="contact__detail-value">{{ section.settings.email }}</div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.address != blank -%}
+        <div class="contact__detail">
+          <div class="contact__detail-label">{{ 'contact.studio' | t }}</div>
+          <div class="contact__detail-value">{{ section.settings.address }}</div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.hours != blank -%}
+        <div class="contact__detail">
+          <div class="contact__detail-label">{{ 'contact.hours' | t }}</div>
+          <div class="contact__detail-value">{{ section.settings.hours }}</div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="contact__form-wrap">
+    {%- form 'contact', class: 'contact__form' -%}
+      {%- if form.posted_successfully? -%}
+        <div class="contact__success">
+          <div class="contact__success-title">{{ 'contact.success_title' | t }}</div>
+          <div class="contact__success-body">{{ 'contact.success_body' | t }}</div>
+        </div>
+      {%- else -%}
+        {%- if form.errors -%}
+          <div class="contact__errors">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="contact__field">
+          <label for="ContactFormName" class="contact__label">{{ 'contact.name_label' | t }}</label>
+          <input
+            type="text"
+            id="ContactFormName"
+            class="contact__input"
+            name="contact[name]"
+            value="{{ form.name }}"
+            placeholder="{{ 'contact.name_placeholder' | t }}"
+          >
+        </div>
+
+        <div class="contact__field">
+          <label for="ContactFormEmail" class="contact__label">{{ 'contact.email_label' | t }}</label>
+          <input
+            type="email"
+            id="ContactFormEmail"
+            class="contact__input"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ 'contact.email_placeholder' | t }}"
+            required
+          >
+        </div>
+
+        <div class="contact__field">
+          <label for="ContactFormMessage" class="contact__label">{{ 'contact.message_label' | t }}</label>
+          <textarea
+            id="ContactFormMessage"
+            class="contact__input contact__input--textarea"
+            name="contact[body]"
+            rows="5"
+            placeholder="{{ 'contact.message_placeholder' | t }}"
+          >{{ form.body }}</textarea>
+        </div>
+
+        <button type="submit" class="contact__submit">{{ 'contact.submit' | t }}</button>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact {
+    padding: 6.25rem 0 8.125rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5.625rem;
+  }
+
+  .contact__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1.15;
+    margin: 0 0 1.625rem;
+  }
+
+  .contact__body {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 420px;
+    margin: 0 0 3.125rem;
+  }
+
+  .contact__details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.625rem;
+  }
+
+  .contact__detail-label {
+    color: var(--color-muted);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact__detail-value {
+    font-size: 16px;
+  }
+
+  .contact__success {
+    border: 1px solid rgba(200, 29, 52, 0.4);
+    background: rgba(200, 29, 52, 0.08);
+    padding: 2.75rem;
+    text-align: center;
+  }
+
+  .contact__success-title {
+    font-family: var(--font-heading--family);
+    font-size: 26px;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact__success-body {
+    color: var(--color-secondary-text);
+    font-size: 15px;
+  }
+
+  .contact__errors {
+    color: #e0687a;
+    font-size: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.375rem;
+  }
+
+  .contact__label {
+    display: block;
+    color: var(--color-muted);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.625rem;
+  }
+
+  .contact__input {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    font-family: var(--font-primary--family);
+    font-size: 16px;
+    padding: 0.75rem 0;
+    outline: none;
+  }
+
+  .contact__input::placeholder {
+    color: #5c564c;
+  }
+
+  .contact__input--textarea {
+    resize: vertical;
+  }
+
+  .contact__submit {
+    margin-top: 0.75rem;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    border: none;
+    padding: 1.125rem;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  @media (max-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .contact {
+      padding-top: 40px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.contact",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Questions, press, or a scent to discuss?"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "We reply personally to every message, usually within one business day."
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "t:labels.email",
+      "default": "hello@saintsamsonparis.example"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "t:labels.address",
+      "default": "5614 W Grand Parkway S Ste 102, Richmond, TX 77406, United States"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "t:labels.hours",
+      "default": "Mon–Fri, 9:00–18:00 CET"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.contact"
+    }
+  ]
+}
+{% endschema %}

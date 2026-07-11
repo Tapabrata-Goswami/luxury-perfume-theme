@@ -1,0 +1,336 @@
+<header class="site-header full-width">
+  <div class="site-header__inner">
+    <button
+      type="button"
+      class="site-header__menu-toggle"
+      data-mobile-nav-toggle
+      aria-label="{{ 'general.menu' | t }}"
+      aria-expanded="false"
+      aria-controls="SiteHeaderNav"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="{{ routes.root_url }}" class="site-header__brand">
+      {%- if section.settings.logo_image != blank -%}
+        {{ section.settings.logo_image | image_url: width: 68, height: 68 | image_tag: width: 34, height: 34, class: 'site-header__logo', alt: section.settings.wordmark_line1 }}
+      {%- else -%}
+        <img
+          class="site-header__logo"
+          src="{{ 'logo-monogram.jpg' | asset_url }}"
+          width="34"
+          height="34"
+          alt="{{ section.settings.wordmark_line1 }}"
+          loading="eager"
+        >
+      {%- endif -%}
+      <span class="site-header__wordmark">
+        <span class="site-header__wordmark-line site-header__wordmark-line--brand">{{ section.settings.wordmark_line1 }}</span>
+        <span class="site-header__wordmark-line site-header__wordmark-line--place">{{ section.settings.wordmark_line2 }}</span>
+      </span>
+    </a>
+
+    <div class="site-header__nav-backdrop" data-mobile-nav-toggle></div>
+
+    <nav class="site-header__nav" id="SiteHeaderNav" data-mobile-nav>
+      <button type="button" class="site-header__nav-close" data-mobile-nav-toggle aria-label="{{ 'general.close_menu' | t }}">
+        &times;
+      </button>
+      {%- for link in section.settings.main_menu.links -%}
+        <a
+          href="{{ link.url }}"
+          class="site-header__nav-link{% if link.active %} site-header__nav-link--active{% endif %}"
+        >
+          {{- link.title -}}
+        </a>
+      {%- endfor -%}
+      <a href="{{ routes.root_url }}#fragrance-quiz-section" class="site-header__nav-link" data-quiz-scroll-link>
+        {{- 'quiz.find_your_fragrance' | t -}}
+      </a>
+    </nav>
+
+    <a
+      href="{{ routes.cart_url }}"
+      class="site-header__cart"
+      aria-label="{{ 'cart.title' | t }}"
+      data-cart-drawer-toggle
+    >
+      {{ 'icon-cart.svg' | inline_asset_content }}
+      <span class="site-header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+    </a>
+  </div>
+</header>
+
+{% stylesheet %}
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(12, 11, 10, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 4rem;
+    max-width: var(--page-width);
+    margin-inline: auto;
+  }
+
+  .site-header__menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    order: -1;
+  }
+
+  .site-header__menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--color-foreground);
+  }
+
+  .site-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .site-header__logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .site-header__wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .site-header__wordmark-line--brand {
+    font-family: var(--font-heading--family);
+    font-size: 21px;
+    letter-spacing: 0.16em;
+    color: var(--color-gold);
+    font-weight: 600;
+  }
+
+  .site-header__wordmark-line--place {
+    font-family: var(--font-primary--family);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--color-muted);
+  }
+
+  .site-header__nav-backdrop {
+    display: none;
+  }
+
+  .site-header__nav-close {
+    display: none;
+  }
+
+  .site-header__nav {
+    display: flex;
+    gap: 2.75rem;
+  }
+
+  .site-header__nav-link {
+    color: #e5dccb;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+  }
+
+  .site-header__nav-link--active {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+
+  .site-header__cart {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: #e5dccb;
+    text-decoration: none;
+  }
+
+  .site-header__cart svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .site-header__cart-count {
+    position: absolute;
+    top: -8px;
+    right: -9px;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    font-size: 10px;
+    font-weight: 600;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 900px) {
+    .site-header__inner {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .site-header__menu-toggle {
+      display: flex;
+    }
+
+    .site-header__wordmark-line--brand {
+      font-size: 17px;
+    }
+
+    .site-header__nav-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .site-header__nav-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .site-header__nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 61;
+      width: min(300px, 82vw);
+      background: var(--color-background);
+      border-right: 1px solid var(--color-border);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.75rem;
+      padding: 5.5rem 2rem 2rem;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .site-header__nav.is-open {
+      transform: translateX(0);
+    }
+
+    .site-header__nav-close {
+      display: block;
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      color: var(--color-foreground);
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .site-header__nav-link {
+      font-size: 14px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    var toggles = document.querySelectorAll('[data-mobile-nav-toggle]');
+    var nav = document.querySelector('[data-mobile-nav]');
+    var backdrop = document.querySelector('.site-header__nav-backdrop');
+    if (!nav || !backdrop || !toggles.length) return;
+
+    var menuButton = document.querySelector('.site-header__menu-toggle');
+
+    function isOpen() {
+      return nav.classList.contains('is-open');
+    }
+
+    function setOpen(open) {
+      nav.classList.toggle('is-open', open);
+      backdrop.classList.toggle('is-open', open);
+      if (menuButton) menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    }
+
+    toggles.forEach(function (toggle) {
+      toggle.addEventListener('click', function () {
+        setOpen(!isOpen());
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isOpen()) setOpen(false);
+    });
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "t:labels.logo_image"
+    },
+    {
+      "type": "text",
+      "id": "wordmark_line1",
+      "label": "t:labels.wordmark_line1",
+      "default": "SAINT SAMSON"
+    },
+    {
+      "type": "text",
+      "id": "wordmark_line2",
+      "label": "t:labels.wordmark_line2",
+      "default": "PARIS"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

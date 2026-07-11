@@ -1,0 +1,382 @@
+<div class="collection-grid">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <div class="collection-grid__items">
+      {%- for product in collection.products -%}
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        <div class="collection-grid__row">
+          <a href="{{ product.url }}" class="collection-grid__image">
+            {%- if product.compare_at_price > product.price -%}
+              {%- assign discount_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+              <span class="collection-grid__badge">-{{ discount_percent }}%</span>
+            {%- endif -%}
+            {%- assign collection_card_image = product.metafields.custom.collection_image | default: product.featured_image -%}
+            {%- if collection_card_image != blank -%}
+              {%- assign collection_card_alt = collection_card_image.alt | default: product.title -%}
+              {{ collection_card_image | image_url: width: 900 | image_tag: sizes: '(min-width: 900px) 42vw, 100vw', class: 'collection-grid__img', alt: collection_card_alt }}
+            {%- endif -%}
+          </a>
+
+          <div class="collection-grid__details">
+            {%- if product.metafields.custom.inspired_by != blank -%}
+              <div class="collection-grid__inspired">{{ 'product.inspired_by_html' | t: name: product.metafields.custom.inspired_by }}</div>
+            {%- endif -%}
+
+            <a href="{{ product.url }}" class="collection-grid__title-link">
+              <h2 class="collection-grid__title">{{ product.title }}</h2>
+            </a>
+
+            {%- if product.metafields.custom.tagline != blank -%}
+              <p class="collection-grid__tagline">{{ product.metafields.custom.tagline }}</p>
+            {%- endif -%}
+
+            {%- if product.metafields.custom.fragrance_family != blank -%}
+              {%- assign fragrance_family_list = product.metafields.custom.fragrance_family.value | split: ',' -%}
+              <div class="collection-grid__family">
+                {%- for note in fragrance_family_list -%}
+                  <span class="collection-grid__family-pill">{{ note | strip }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if product.metafields.custom.top_notes != blank or product.metafields.custom.heart_notes != blank or product.metafields.custom.base_notes != blank -%}
+              <div class="collection-grid__notes">
+                {%- if product.metafields.custom.top_notes != blank -%}
+                  <div class="collection-grid__notes-line"><span>{{ 'product.top_notes' | t }}</span> {{ product.metafields.custom.top_notes }}</div>
+                {%- endif -%}
+                {%- if product.metafields.custom.heart_notes != blank -%}
+                  <div class="collection-grid__notes-line"><span>{{ 'product.heart_notes' | t }}</span> {{ product.metafields.custom.heart_notes }}</div>
+                {%- endif -%}
+                {%- if product.metafields.custom.base_notes != blank -%}
+                  <div class="collection-grid__notes-line"><span>{{ 'product.base_notes' | t }}</span> {{ product.metafields.custom.base_notes }}</div>
+                {%- endif -%}
+              </div>
+            {%- elsif product.description != blank -%}
+              <p class="collection-grid__description">{{ product.description | strip_html | truncatewords: 26 }}</p>
+            {%- endif -%}
+
+            <div class="collection-grid__footer">
+              <div class="collection-grid__price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="collection-grid__price-compare">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+                <span class="collection-grid__price-current">{{ product.price | money }}</span>
+              </div>
+
+              <div class="collection-grid__actions">
+                <button
+                  type="button"
+                  class="collection-grid__add"
+                  data-collection-add
+                  data-variant-id="{{ current_variant.id }}"
+                  {% if current_variant.available == false %}disabled{% endif %}
+                >
+                  {%- if current_variant.available == false -%}
+                    {{ 'product.sold_out' | t }}
+                  {%- else -%}
+                    {{ 'product.add_to_bag' | t }}
+                  {%- endif -%}
+                </button>
+                <a href="{{ product.url }}" class="collection-grid__view">{{ 'product.view_details' | t }} &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {{ paginate | default_pagination }}
+  {%- endpaginate -%}
+</div>
+
+{% stylesheet %}
+  .collection-grid {
+    padding: 2.5rem 0 8.75rem;
+  }
+
+  .collection-grid__items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .collection-grid__row {
+    display: flex;
+    align-items: center;
+    gap: 3.5rem;
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .collection-grid__row:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .collection-grid__image {
+    position: relative;
+    display: block;
+    flex: 0 0 42%;
+    aspect-ratio: 1 / 1.05;
+    overflow: hidden;
+    background: var(--color-surface);
+    border-radius: 4px;
+  }
+
+  .collection-grid__badge {
+    position: absolute;
+    top: 0.875rem;
+    left: 0.875rem;
+    z-index: 2;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .collection-grid__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .collection-grid__image:hover .collection-grid__img {
+    transform: scale(1.05);
+  }
+
+  .collection-grid__details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .collection-grid__inspired {
+    color: var(--color-muted);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .collection-grid__title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .collection-grid__title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 32px;
+    margin: 0 0 0.625rem;
+  }
+
+  .collection-grid__tagline {
+    color: var(--color-secondary-text);
+    font-size: 15px;
+    font-style: italic;
+    font-family: var(--font-heading--family);
+    margin: 0 0 1rem;
+  }
+
+  .collection-grid__family {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.125rem;
+  }
+
+  .collection-grid__family-pill {
+    border: 1px solid var(--color-border);
+    color: var(--color-gold);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .collection-grid__notes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .collection-grid__notes-line {
+    color: var(--color-secondary-text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .collection-grid__notes-line span {
+    color: var(--color-gold);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 0.5rem;
+  }
+
+  .collection-grid__description {
+    color: var(--color-secondary-text);
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 0 1.5rem;
+  }
+
+  .collection-grid__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .collection-grid__price {
+    font-size: 20px;
+    color: var(--color-gold);
+  }
+
+  .collection-grid__price-compare {
+    color: var(--color-muted);
+    text-decoration: line-through;
+    font-size: 15px;
+    margin-right: 0.5rem;
+  }
+
+  .collection-grid__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .collection-grid__add {
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    border: none;
+    padding: 0.875rem 1.75rem;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .collection-grid__add:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .collection-grid__view {
+    color: var(--color-gold);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-gold);
+    padding-bottom: 0.2rem;
+  }
+
+  @media (max-width: 900px) {
+    .collection-grid__row,
+    .collection-grid__row:nth-child(even) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.75rem;
+    }
+
+    .collection-grid__image {
+      flex: none;
+    }
+
+    .collection-grid__title {
+      font-size: 26px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .collection-grid__row {
+      padding: 2.25rem 0;
+    }
+
+    .collection-grid__actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('[data-collection-add]').forEach((button) => {
+    button.addEventListener('click', () => {
+      var cartDrawer = document.getElementById('cart-drawer');
+      var variantId = button.getAttribute('data-variant-id');
+      if (!cartDrawer || !variantId) return;
+
+      var addUrl = cartDrawer.getAttribute('data-add-url');
+      var cartUrl = cartDrawer.getAttribute('data-cart-url');
+
+      button.disabled = true;
+
+      fetch(addUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ id: variantId, quantity: 1 }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status) {
+            throw new Error(result.description || 'Could not add this item to your bag.');
+          }
+          return fetch(cartUrl + '.js', { headers: { Accept: 'application/json' } });
+        })
+        .then((response) => response.json())
+        .then((cart) => {
+          document.dispatchEvent(new CustomEvent('cart:add', { detail: cart }));
+        })
+        .catch((error) => {
+          window.alert(error.message);
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.collection_grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:labels.products_per_page",
+      "min": 6,
+      "max": 48,
+      "step": 6,
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "product_type_label",
+      "label": "t:labels.product_type_label",
+      "default": "Eau de Parfum Oil"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.collection_grid"
+    }
+  ]
+}
+{% endschema %}

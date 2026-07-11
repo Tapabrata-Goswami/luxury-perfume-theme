@@ -1,0 +1,137 @@
+<div class="instagram-marquee">
+  <div class="instagram-marquee__header">
+    {%- if section.settings.eyebrow != blank -%}
+      {%- if settings.social_instagram_url != blank -%}
+        <a href="{{ settings.social_instagram_url }}" target="_blank" rel="noopener" class="instagram-marquee__eyebrow">{{ section.settings.eyebrow }}</a>
+      {%- else -%}
+        <div class="instagram-marquee__eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="instagram-marquee__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+  </div>
+
+  <div class="instagram-marquee__viewport">
+    <div class="instagram-marquee__track">
+      {%- render 'instagram-marquee-track', blocks: section.blocks -%}
+      {%- render 'instagram-marquee-track', blocks: section.blocks -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .instagram-marquee {
+    position: relative;
+    padding: 5rem 0;
+    background: var(--color-surface-dark);
+  }
+
+  .instagram-marquee::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    background: linear-gradient(to bottom, var(--color-background), transparent);
+    pointer-events: none;
+  }
+
+  .instagram-marquee__header {
+    text-align: center;
+    margin-bottom: 2.75rem;
+    padding: 0 4rem;
+  }
+
+  .instagram-marquee__eyebrow {
+    display: inline-block;
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  a.instagram-marquee__eyebrow:hover {
+    text-decoration: underline;
+  }
+
+  .instagram-marquee__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .instagram-marquee__viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .instagram-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: instagram-marquee-scroll 32s linear infinite;
+  }
+
+  @keyframes instagram-marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .instagram-marquee__header {
+      padding: 0;
+    }
+
+    .instagram-marquee__heading {
+      font-size: 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.instagram_marquee",
+  "blocks": [
+    {
+      "type": "instagram-image"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "@saintsamsonparfum"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Discover Saint Samson"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.instagram_marquee",
+      "blocks": [
+        { "type": "instagram-image", "settings": { "fallback_asset": "instagram-1.jpg" } },
+        { "type": "instagram-image", "settings": { "fallback_asset": "instagram-2.jpg" } },
+        { "type": "instagram-image", "settings": { "fallback_asset": "instagram-3.jpg" } },
+        { "type": "instagram-image", "settings": { "fallback_asset": "instagram-4.jpg" } },
+        { "type": "instagram-image", "settings": { "fallback_asset": "instagram-5.jpg" } },
+        { "type": "instagram-image", "settings": { "fallback_asset": "instagram-6.jpg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

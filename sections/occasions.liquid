@@ -1,0 +1,72 @@
+<div class="occasions">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="occasions__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  <div class="occasions__grid">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .occasions {
+    padding: 5.625rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .occasions__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    text-align: center;
+    margin: 0 0 3rem;
+  }
+
+  .occasions__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .occasions__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .occasions__heading {
+      font-size: 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.occasions",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Luxury Fragrance Oils for Every Occasion"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "occasion"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.occasions",
+      "blocks": [
+        { "type": "occasion", "settings": { "title": "Office", "body": "A refined, subtle presence for the workday — long-lasting without overwhelming a shared room." } },
+        { "type": "occasion", "settings": { "title": "Date Night", "body": "Warm, seductive notes designed to linger close to skin through dinner and beyond." } },
+        { "type": "occasion", "settings": { "title": "Weddings", "body": "Elegant, memorable fragrance oils fit for the most important day on the calendar." } },
+        { "type": "occasion", "settings": { "title": "Everyday", "body": "Effortless, alcohol-free luxury made for daily wear at a fraction of designer prices." } },
+        { "type": "occasion", "settings": { "title": "Luxury Gifting", "body": "Beautifully presented fragrance oils that feel like a designer gift, without the designer price tag." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

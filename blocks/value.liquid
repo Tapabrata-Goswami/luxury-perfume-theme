@@ -1,0 +1,64 @@
+{% doc %}
+  Renders a single numbered value proposition tile.
+
+  @example
+  {% content_for 'block', type: 'value', id: 'value-1' %}
+{% enddoc %}
+
+<div class="value" {{ block.shopify_attributes }}>
+  <div class="value__number">{{ block.settings.number }}</div>
+  <div class="value__title">{{ block.settings.title }}</div>
+  <p class="value__body">{{ block.settings.body }}</p>
+</div>
+
+{% stylesheet %}
+  .value__number {
+    font-family: var(--font-heading--family);
+    font-size: 34px;
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+
+  .value__title {
+    font-size: 19px;
+    margin-bottom: 0.75rem;
+  }
+
+  .value__body {
+    color: var(--color-secondary-text);
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.value",
+  "settings": [
+    {
+      "type": "text",
+      "id": "number",
+      "label": "t:labels.number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Value title"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "Value description."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.value"
+    }
+  ]
+}
+{% endschema %}

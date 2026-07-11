@@ -1,0 +1,66 @@
+{
+  "sections": {
+    "contact": {
+      "type": "contact"
+    },
+    "fragrance-quiz": {
+      "type": "fragrance-quiz",
+      "settings": {
+        "eyebrow": "Before You Go",
+        "heading": "Let Us Suggest a Scent",
+        "subheading": "While you wait to hear back from us, take 30 seconds to find a fragrance that feels like you.",
+        "result_heading": "Your Match",
+        "collection": "featured-collections"
+      },
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "What's your mood?",
+            "option_1_label": "Warm & Cozy",
+            "option_1_tag": "warm",
+            "option_2_label": "Fresh & Clean",
+            "option_2_tag": "fresh",
+            "option_3_label": "Sweet & Playful",
+            "option_3_tag": "sweet",
+            "option_4_label": "Bold & Mysterious",
+            "option_4_tag": "woody"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "When will you wear it most?",
+            "option_1_label": "Daytime",
+            "option_1_tag": "day",
+            "option_2_label": "Evening",
+            "option_2_tag": "evening",
+            "option_3_label": "Special Occasions",
+            "option_3_tag": "evening",
+            "option_4_label": "Every Day",
+            "option_4_tag": "day"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "Which scent family calls to you?",
+            "option_1_label": "Citrus & Fruity",
+            "option_1_tag": "citrus",
+            "option_2_label": "Floral",
+            "option_2_tag": "floral",
+            "option_3_label": "Amber & Musk",
+            "option_3_tag": "amber",
+            "option_4_label": "Woody & Spicy",
+            "option_4_tag": "woody"
+          }
+        }
+      },
+      "block_order": ["question-1", "question-2", "question-3"]
+    }
+  },
+  "order": [
+    "contact",
+    "fragrance-quiz"
+  ]
+}

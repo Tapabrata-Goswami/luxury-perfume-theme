@@ -1,0 +1,193 @@
+<div class="reviews">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="reviews__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="reviews__summary">
+    <div class="reviews__summary-score">
+      <div class="reviews__stars">
+        <span class="reviews__stars-icons">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="reviews__average">{{ 'general.rating_out_of_5' | t: rating: section.settings.average_rating }}</span>
+      </div>
+      <div class="reviews__count">{{ 'general.based_on_reviews' | t: count: section.settings.review_count }}</div>
+    </div>
+
+    <div class="reviews__bars">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'rating-bar' -%}
+          {% render block %}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="reviews__cta">
+      <a href="{{ section.settings.write_review_url | default: '#' }}" class="reviews__write-button">
+        {{- section.settings.write_review_text -}}
+      </a>
+    </div>
+  </div>
+
+  <div class="reviews__list">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'review' -%}
+        {% render block %}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="reviews__app-blocks">
+    {%- for block in section.blocks -%}
+      {%- unless block.type == 'rating-bar' or block.type == 'review' -%}
+        {% render block %}
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .reviews {
+    padding: 5.625rem 4rem;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .reviews__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    margin: 0 0 2.25rem;
+  }
+
+  .reviews__summary {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr auto;
+    gap: 3rem;
+    align-items: center;
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0.5rem;
+  }
+
+  .reviews__stars {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .reviews__stars-icons {
+    color: var(--color-gold-dark);
+    font-size: 18px;
+    letter-spacing: 0.08em;
+  }
+
+  .reviews__average {
+    color: var(--color-foreground);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .reviews__count {
+    color: var(--color-muted);
+    font-size: 13px;
+  }
+
+  .reviews__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .reviews__write-button {
+    display: inline-block;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    text-decoration: none;
+    padding: 0.875rem 1.75rem;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .reviews__app-blocks:not(:empty) {
+    margin-top: 3.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .reviews__summary {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .reviews {
+      padding: 3rem 1rem;
+    }
+
+    .reviews__heading {
+      font-size: 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.reviews",
+  "blocks": [
+    { "type": "rating-bar" },
+    { "type": "review" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "The Saint Samson Experience"
+    },
+    {
+      "type": "text",
+      "id": "average_rating",
+      "label": "t:labels.average_rating",
+      "default": "4.9"
+    },
+    {
+      "type": "number",
+      "id": "review_count",
+      "label": "t:labels.review_count",
+      "default": 214
+    },
+    {
+      "type": "text",
+      "id": "write_review_text",
+      "label": "t:labels.write_review_text",
+      "default": "Write a Review"
+    },
+    {
+      "type": "url",
+      "id": "write_review_url",
+      "label": "t:labels.write_review_url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.reviews",
+      "blocks": [
+        { "type": "rating-bar", "settings": { "stars": 5, "percent": 92, "count": 197 } },
+        { "type": "rating-bar", "settings": { "stars": 4, "percent": 6, "count": 13 } },
+        { "type": "rating-bar", "settings": { "stars": 3, "percent": 2, "count": 3 } },
+        { "type": "rating-bar", "settings": { "stars": 2, "percent": 0, "count": 1 } },
+        { "type": "rating-bar", "settings": { "stars": 1, "percent": 0, "count": 0 } },
+        { "type": "review", "settings": { "initial": "A", "stars": 5, "name": "Amelia R.", "product": "Apexion", "title": "Don’t need convincing anymore", "quote": "First bottle I was skeptical. Second bottle I was hopeful. Third bottle I just reorder without thinking. Apexion.", "date": "07/08/2026" } },
+        { "type": "review", "settings": { "initial": "M", "stars": 5, "name": "Marcus T.", "product": "Cognac Veil", "title": "Warm and cozy without being loud", "quote": "Cognac Veil is warm and cozy without being overpowering. I get compliments every time I wear it.", "date": "07/08/2026" } },
+        { "type": "review", "settings": { "initial": "P", "stars": 5, "name": "Priya D.", "product": "Red Alchemy", "title": "Smells identical to the designer version", "quote": "Red Alchemy smells identical to the designer version. The roll-on format makes it so easy to carry around.", "date": "07/07/2026" } },
+        { "type": "review", "settings": { "initial": "S", "stars": 5, "name": "Sofia L.", "product": "Velvet Cherry", "title": "My new signature scent", "quote": "Velvet Cherry lasted through a full workday and a dinner after. Rich without being sickly sweet.", "date": "07/06/2026" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

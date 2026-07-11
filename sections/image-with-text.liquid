@@ -1,0 +1,290 @@
+<div class="image-with-text">
+  <div class="image-with-text__image">
+    {%- for block in section.blocks -%}
+      <div class="image-with-text__slot image-with-text__slot--{{ forloop.index }}">
+        {% render block %}
+      </div>
+    {%- endfor -%}
+
+    <div class="image-with-text__logo-wrap">
+      {%- if section.settings.logo_image != blank -%}
+        {{ section.settings.logo_image | image_url: width: 240 | image_tag: class: 'image-with-text__logo', alt: section.settings.eyebrow | default: 'Saint Samson' }}
+      {%- else -%}
+        <img
+          class="image-with-text__logo"
+          src="{{ 'logo-monogram.jpg' | asset_url }}"
+          alt="Saint Samson"
+          width="120"
+          height="120"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="image-with-text__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="image-with-text__eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="image-with-text__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.body_1 != blank -%}
+      <p class="image-with-text__body">{{ section.settings.body_1 }}</p>
+    {%- endif -%}
+    {%- if section.settings.body_2 != blank -%}
+      <p class="image-with-text__body">{{ section.settings.body_2 }}</p>
+    {%- endif -%}
+    {%- if section.settings.link_text != blank -%}
+      <a href="{{ section.settings.link_url | default: '#' }}" class="image-with-text__link">
+        {{- section.settings.link_text }} &rarr;
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .image-with-text {
+    padding: 3.75rem 0 6.25rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4.375rem;
+    align-items: center;
+  }
+
+  .image-with-text__image {
+    position: relative;
+    aspect-ratio: 1 / 1.05;
+  }
+
+  .image-with-text__slot {
+    position: absolute;
+  }
+
+  .image-with-text__slot::before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-top: 100%;
+  }
+
+  .image-with-text__slot--1 {
+    width: 25%;
+    top: 1%;
+    left: 26%;
+  }
+
+  .image-with-text__slot--2 {
+    width: 44%;
+    top: 7%;
+    left: 50%;
+  }
+
+  .image-with-text__slot--3 {
+    width: 35%;
+    top: 31%;
+    left: 16%;
+  }
+
+  .image-with-text__slot--4 {
+    width: 25%;
+    top: 71%;
+    left: 18%;
+  }
+
+  .image-with-text__slot--5 {
+    width: 35%;
+    top: 57%;
+    left: 47%;
+  }
+
+  .image-with-text__logo-wrap {
+    position: absolute;
+    width: 16%;
+    aspect-ratio: 1;
+    top: 15%;
+    left: 7%;
+    z-index: 3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-background);
+    border: 1.5px solid var(--color-gold);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  .image-with-text__logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .image-with-text__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .image-with-text__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.2;
+    margin: 0 0 1.375rem;
+  }
+
+  .image-with-text__body {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 460px;
+    margin: 0 0 1.25rem;
+  }
+
+  .image-with-text__link {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-gold);
+    padding-bottom: 0.375rem;
+  }
+
+  @media (max-width: 900px) {
+    .image-with-text {
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr;
+      padding: 2rem 0.5rem 4rem;
+    }
+
+    .image-with-text__image {
+      aspect-ratio: 1 / 1.2;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .image-with-text__content {
+      padding: 0 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('.image-with-text').forEach((section) => {
+    if (!window.gsap) return;
+
+    const bubbles = Array.from(section.querySelectorAll('.story-slide, .image-with-text__logo-wrap'));
+    const content = section.querySelector('.image-with-text__content');
+
+    if (window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const reveal = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 75%',
+        },
+      });
+
+      reveal
+        .from(bubbles, {
+          opacity: 0,
+          scale: 0.6,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'back.out(1.6)',
+        })
+        .from(Array.from(content.children), {
+          opacity: 0,
+          y: 24,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power2.out',
+        }, '-=0.5')
+        .add(() => {
+          bubbles.forEach((bubble, index) => {
+            gsap.to(bubble, {
+              y: '+=10',
+              duration: 2.6 + (index % 3) * 0.4,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              delay: index * 0.15,
+            });
+          });
+        });
+    } else {
+      gsap.set(bubbles, { opacity: 1 });
+    }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.image_with_text",
+  "blocks": [
+    {
+      "type": "story-slide"
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "t:labels.logo_image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "The Saint Samson Difference"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Luxury should be experienced — not reserved."
+    },
+    {
+      "type": "textarea",
+      "id": "body_1",
+      "label": "t:labels.body_1",
+      "default": "Every Saint Samson fragrance begins with inspiration from the world's most admired perfumes and evolves into an experience uniquely our own. Crafted with premium ingredients and concentrated parfum oils, each fragrance delivers exceptional longevity, refined projection, and effortless sophistication."
+    },
+    {
+      "type": "textarea",
+      "id": "body_2",
+      "label": "t:labels.body_2"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "t:labels.link_text",
+      "default": "The House"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "t:labels.link_url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.image_with_text",
+      "blocks": [
+        { "type": "story-slide", "settings": { "fallback_asset": "story-slide-1.jpg" } },
+        { "type": "story-slide", "settings": { "fallback_asset": "story-slide-2.jpg" } },
+        { "type": "story-slide", "settings": { "fallback_asset": "story-slide-3.jpg" } },
+        { "type": "story-slide", "settings": { "fallback_asset": "story-slide-4.jpg" } },
+        { "type": "story-slide", "settings": { "fallback_asset": "story-slide-5.jpg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

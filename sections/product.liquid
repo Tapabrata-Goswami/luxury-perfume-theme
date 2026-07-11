@@ -1,0 +1,736 @@
+<div class="product-detail">
+  <div class="product-detail__breadcrumb">
+    <a href="{{ routes.root_url }}">{{ 'general.maison' | t }}</a>
+    &#47;
+    <a href="{{ routes.all_products_collection_url }}">{{ 'general.collections' | t }}</a>
+    &#47;
+    <span>{{ product.title }}</span>
+  </div>
+
+  <div class="product-detail__layout">
+    <div class="product-detail__gallery">
+      <div class="product-detail__main-image">
+        {%- if product.featured_image != blank -%}
+          {%- assign main_image_alt = product.featured_image.alt | default: product.title -%}
+          {{ product.featured_image | image_url: width: 900 | image_tag: sizes: '45vw', class: 'product-detail__main-img', alt: main_image_alt, id: 'product-main-image' }}
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="product-detail__thumbs">
+          {%- for image in product.images limit: 3 -%}
+            <button
+              type="button"
+              class="product-detail__thumb"
+              data-full-src="{{ image | image_url: width: 900 }}"
+              aria-label="{{ 'product.view_image' | t }}"
+            >
+              {{ image | image_url: width: 200 | image_tag: alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="product-detail__content">
+      {%- if product.metafields.custom.inspired_by != blank -%}
+        <div class="product-detail__eyebrow">{{ 'product.inspired_by_html' | t: name: product.metafields.custom.inspired_by }}</div>
+      {%- endif -%}
+
+      <h1 class="product-detail__title">{{ product.title }}</h1>
+
+      {%- if product.metafields.custom.tagline != blank -%}
+        <p class="product-detail__tagline">{{ product.metafields.custom.tagline }}</p>
+      {%- endif -%}
+
+      {%- if product.metafields.custom.fragrance_family != blank -%}
+        {%- assign fragrance_family_list = product.metafields.custom.fragrance_family.value | split: ',' -%}
+        <div class="product-detail__family">
+          {%- for note in fragrance_family_list -%}
+            <span class="product-detail__family-pill">{{ note | strip }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="product-detail__price">
+        {%- if product.compare_at_price > product.price -%}
+          {%- assign discount_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+          <span class="product-detail__price-current">{{ product.price | money }}</span>
+          <span class="product-detail__price-compare">{{ product.compare_at_price | money }}</span>
+          <span class="product-detail__price-badge">-{{ discount_percent }}%</span>
+        {%- else -%}
+          <span class="product-detail__price-current">{{ product.price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      <div class="product-detail__meta">
+        {%- assign variant_title = product.selected_or_first_available_variant.title -%}
+        {%- if variant_title != blank and variant_title != 'Default Title' -%}
+          {{ variant_title }} &middot;
+        {%- endif -%}
+        {{ section.settings.product_type_label }}
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="product-detail__description">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if product.metafields.custom.top_notes != blank or product.metafields.custom.heart_notes != blank or product.metafields.custom.base_notes != blank -%}
+        <div class="product-detail__notes">
+          {%- if product.metafields.custom.top_notes != blank -%}
+            <div class="product-detail__notes-card">
+              <div class="product-detail__notes-label">{{ 'product.top_notes' | t }}</div>
+              <div class="product-detail__notes-value">{{ product.metafields.custom.top_notes }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.heart_notes != blank -%}
+            <div class="product-detail__notes-card">
+              <div class="product-detail__notes-label">{{ 'product.heart_notes' | t }}</div>
+              <div class="product-detail__notes-value">{{ product.metafields.custom.heart_notes }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.base_notes != blank -%}
+            <div class="product-detail__notes-card">
+              <div class="product-detail__notes-label">{{ 'product.base_notes' | t }}</div>
+              <div class="product-detail__notes-value">{{ product.metafields.custom.base_notes }}</div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if product.metafields.custom.longevity != blank or product.metafields.custom.projection != blank or product.metafields.custom.sillage != blank -%}
+        <div class="product-detail__stats">
+          {%- if product.metafields.custom.longevity != blank -%}
+            <div class="product-detail__stat">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3.5 2" />
+              </svg>
+              <div class="product-detail__stat-label">{{ 'product.longevity' | t }}</div>
+              <div class="product-detail__stat-value">{{ product.metafields.custom.longevity }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.projection != blank -%}
+            <div class="product-detail__stat">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5">
+                <path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />
+                <circle cx="12" cy="12" r="3.2" />
+              </svg>
+              <div class="product-detail__stat-label">{{ 'product.projection' | t }}</div>
+              <div class="product-detail__stat-value">{{ product.metafields.custom.projection }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.sillage != blank -%}
+            <div class="product-detail__stat">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5">
+                <path d="M3 12c2-3 5-4.5 9-4.5s7 1.5 9 4.5c-2 3-5 4.5-9 4.5s-7-1.5-9-4.5Z" />
+                <circle cx="12" cy="12" r="2.4" />
+              </svg>
+              <div class="product-detail__stat-label">{{ 'product.sillage' | t }}</div>
+              <div class="product-detail__stat-value">{{ product.metafields.custom.sillage }}</div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- form 'product', product, class: 'product-detail__form' -%}
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button
+          type="submit"
+          class="product-detail__add-button"
+          {% if current_variant.available == false %}disabled{% endif %}
+        >
+          {%- if current_variant.available == false -%}
+            {{ 'product.sold_out' | t }}
+          {%- else -%}
+            {{ 'product.add_to_bag' | t }}
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+
+      <div class="product-detail__trust">
+        <div class="product-detail__trust-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7h11v9H3z" />
+            <path d="M14 10h4l3 3v3h-7z" />
+            <circle cx="7.5" cy="18" r="1.5" />
+            <circle cx="17.5" cy="18" r="1.5" />
+          </svg>
+          <span>{{ 'product.trust_shipping' | t }}</span>
+        </div>
+        <div class="product-detail__trust-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="8" width="18" height="12" rx="1" />
+            <path d="M3 12h18" />
+            <path d="M12 8v12" />
+            <path d="M8 8c-1.5 0-2.5-1-2.5-2.5S6.5 3 8 3c1.5 0 4 2 4 5" />
+            <path d="M16 8c1.5 0 2.5-1 2.5-2.5S17.5 3 16 3c-1.5 0-4 2-4 5" />
+          </svg>
+          <span>{{ 'product.trust_packaging' | t }}</span>
+        </div>
+        <div class="product-detail__trust-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+            <rect x="3" y="13" width="4" height="6" rx="1.5" />
+            <rect x="17" y="13" width="4" height="6" rx="1.5" />
+            <path d="M19 19v1a2 2 0 0 1-2 2h-3" />
+          </svg>
+          <span>{{ 'product.trust_support' | t }}</span>
+        </div>
+      </div>
+
+      <div class="product-detail__accordion">
+        {%- if product.metafields.custom.highlights != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.why_youll_love_it' | t }}</summary>
+            <ul class="accordion-item__body accordion-item__list accordion-item__list--check">
+              {%- for point in product.metafields.custom.highlights.value -%}
+                <li>{{ point }}</li>
+              {%- endfor -%}
+            </ul>
+          </details>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.perfect_for != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.perfect_for' | t }}</summary>
+            <ul class="accordion-item__body accordion-item__list">
+              {%- for occasion in product.metafields.custom.perfect_for.value -%}
+                <li>{{ occasion }}</li>
+              {%- endfor -%}
+            </ul>
+          </details>
+        {%- endif -%}
+
+        {%- if section.settings.how_to_apply != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.how_to_apply' | t }}</summary>
+            <div class="accordion-item__body">{{ section.settings.how_to_apply }}</div>
+          </details>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.gender != blank or product.metafields.custom.size_label != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.product_details' | t }}</summary>
+            <dl class="accordion-item__body accordion-item__details">
+              {%- if section.settings.brand_name != blank -%}
+                <dt>{{ 'product.brand' | t }}</dt>
+                <dd>{{ section.settings.brand_name }}</dd>
+              {%- endif -%}
+              {%- if product.collections.first.title != blank -%}
+                <dt>{{ 'product.collection' | t }}</dt>
+                <dd>{{ product.collections.first.title }}</dd>
+              {%- endif -%}
+              {%- if product.metafields.custom.size_label != blank -%}
+                <dt>{{ 'product.size' | t }}</dt>
+                <dd>{{ product.metafields.custom.size_label }}</dd>
+              {%- endif -%}
+              {%- if section.settings.application_method != blank -%}
+                <dt>{{ 'product.application' | t }}</dt>
+                <dd>{{ section.settings.application_method }}</dd>
+              {%- endif -%}
+              {%- if product.metafields.custom.gender != blank -%}
+                <dt>{{ 'product.gender' | t }}</dt>
+                <dd>{{ product.metafields.custom.gender }}</dd>
+              {%- endif -%}
+            </dl>
+          </details>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.ingredients != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.ingredients' | t }}</summary>
+            <div class="accordion-item__body">{{ product.metafields.custom.ingredients }}</div>
+          </details>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.inspiration_story != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.inspiration' | t }}</summary>
+            <div class="accordion-item__body">{{ product.metafields.custom.inspiration_story.value | newline_to_br }}</div>
+          </details>
+        {%- endif -%}
+
+        {%- if section.settings.shipping_and_returns != blank -%}
+          <details class="accordion-item">
+            <summary class="accordion-item__title">{{ 'product.shipping_and_returns' | t }}</summary>
+            <div class="accordion-item__body">{{ section.settings.shipping_and_returns }}</div>
+          </details>
+        {%- endif -%}
+      </div>
+
+      {%- if product.metafields.custom.inspired_by != blank -%}
+        <p class="product-detail__disclaimer">
+          {{- 'product.disclaimer_html' | t: title: product.title, inspired_by: product.metafields.custom.inspired_by -}}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-detail__breadcrumb {
+    padding: 1.5rem 0 0;
+    color: var(--color-muted);
+    font-size: 13px;
+  }
+
+  .product-detail__breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .product-detail__breadcrumb span {
+    color: #e5dccb;
+  }
+
+  .product-detail__layout {
+    padding: 2.5rem 0 7.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4.375rem;
+  }
+
+  .product-detail__gallery {
+    position: sticky;
+    top: 6.25rem;
+    align-self: start;
+  }
+
+  .product-detail__main-image {
+    aspect-ratio: 1 / 1.05;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    background: var(--color-surface);
+  }
+
+  .product-detail__main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-detail__thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+  }
+
+  .product-detail__thumb {
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    padding: 0;
+    background: none;
+  }
+
+  .product-detail__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-detail__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .product-detail__title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 46px;
+    margin: 0 0 0.5rem;
+  }
+
+  .product-detail__tagline {
+    color: var(--color-secondary-text);
+    font-size: 15px;
+    font-style: italic;
+    font-family: var(--font-heading--family);
+    margin: 0 0 1.125rem;
+  }
+
+  .product-detail__family {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.375rem;
+  }
+
+  .product-detail__family-pill {
+    border: 1px solid var(--color-border);
+    color: var(--color-gold);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .product-detail__price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .product-detail__price-current {
+    font-size: 23px;
+    color: var(--color-gold);
+  }
+
+  .product-detail__price-compare {
+    font-size: 16px;
+    color: var(--color-muted);
+    text-decoration: line-through;
+  }
+
+  .product-detail__price-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .product-detail__meta {
+    color: var(--color-muted);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.75rem;
+  }
+
+  .product-detail__description {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 460px;
+    margin-bottom: 2.25rem;
+  }
+
+  .product-detail__notes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .product-detail__notes-card {
+    padding: 1rem 0.875rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .product-detail__notes-label {
+    color: var(--color-gold);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-detail__notes-value {
+    color: #c9beac;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .product-detail__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .product-detail__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.875rem 0.5rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .product-detail__stat svg {
+    margin-bottom: 0.5rem;
+  }
+
+  .product-detail__stat-label {
+    color: var(--color-muted);
+    font-size: 11px;
+  }
+
+  .product-detail__stat-value {
+    color: #e5dccb;
+    font-size: 12px;
+  }
+
+  .product-detail__form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .product-detail__add-button {
+    flex: 1;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    text-align: center;
+    padding: 1.125rem;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .product-detail__add-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .product-detail__trust {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1.25rem 0.5rem;
+    margin-bottom: 3rem;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .product-detail__trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .product-detail__trust-item span {
+    color: var(--color-muted);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+  }
+
+  .accordion-item {
+    border-top: 1px solid var(--color-border);
+    padding: 1.375rem 0;
+  }
+
+  .accordion-item:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .accordion-item__title {
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .accordion-item__body {
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 0.625rem;
+  }
+
+  .accordion-item__list {
+    list-style: none;
+    margin: 0.625rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .accordion-item__list li {
+    padding-left: 1.375rem;
+    position: relative;
+  }
+
+  .accordion-item__list li::before {
+    content: '\2022';
+    position: absolute;
+    left: 0.25rem;
+    color: var(--color-gold);
+  }
+
+  .accordion-item__list--check li::before {
+    content: '\2713';
+    font-weight: 600;
+  }
+
+  .accordion-item__details {
+    margin: 0.625rem 0 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .accordion-item__details dt {
+    color: var(--color-gold);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .accordion-item__details dd {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  .product-detail__disclaimer {
+    color: #5c564c;
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 1.375rem 0 0;
+  }
+
+  @media (max-width: 900px) {
+    .product-detail__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .product-detail__gallery {
+      position: static;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .product-detail__title {
+      font-size: 32px;
+    }
+
+    .product-detail__notes,
+    .product-detail__stats {
+      gap: 0.625rem;
+    }
+
+    .product-detail__form {
+      flex-direction: column;
+    }
+
+    .product-detail__trust {
+      gap: 0.375rem;
+    }
+
+    .product-detail__trust-item span {
+      font-size: 10px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('.product-detail__thumb').forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const mainImage = document.getElementById('product-main-image');
+      const fullSrc = thumb.getAttribute('data-full-src');
+      if (mainImage && fullSrc) {
+        mainImage.removeAttribute('srcset');
+        mainImage.removeAttribute('sizes');
+        mainImage.src = fullSrc;
+      }
+    });
+  });
+
+  const addForm = document.querySelector('.product-detail__form');
+  const cartDrawer = document.getElementById('cart-drawer');
+
+  if (addForm && cartDrawer) {
+    const addUrl = cartDrawer.getAttribute('data-add-url');
+    const cartUrl = cartDrawer.getAttribute('data-cart-url');
+
+    addForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const submitButton = addForm.querySelector('[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+
+      fetch(addUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          id: addForm.querySelector('[name="id"]').value,
+          quantity: parseInt(addForm.querySelector('[name="quantity"]').value || '1', 10),
+        }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status) {
+            // Shopify returns a 422 with a `status` + `description` on failure (e.g. sold out).
+            throw new Error(result.description || 'Could not add this item to your bag.');
+          }
+          return fetch(cartUrl + '.js', { headers: { Accept: 'application/json' } });
+        })
+        .then((response) => response.json())
+        .then((cart) => {
+          document.dispatchEvent(new CustomEvent('cart:add', { detail: cart }));
+        })
+        .catch((error) => {
+          window.alert(error.message);
+        })
+        .finally(() => {
+          if (submitButton) submitButton.disabled = false;
+        });
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "product_type_label",
+      "label": "t:labels.product_type_label",
+      "default": "Eau de Parfum Oil"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "t:labels.brand_name",
+      "default": "Saint Samson"
+    },
+    {
+      "type": "text",
+      "id": "application_method",
+      "label": "t:labels.application_method",
+      "default": "Roll-On"
+    },
+    {
+      "type": "textarea",
+      "id": "how_to_apply",
+      "label": "t:labels.how_to_apply",
+      "default": "Apply directly to pulse points — wrists, neck, behind the ears, inner elbows. Let it develop naturally with your body heat."
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_and_returns",
+      "label": "t:labels.shipping_and_returns",
+      "default": "Free shipping over $50. 30-day returns on unopened bottles."
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

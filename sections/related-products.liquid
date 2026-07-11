@@ -1,0 +1,143 @@
+<div class="related-products">
+  {%- assign related_collection = product.collections.first -%}
+  {%- if related_collection -%}
+    {%- assign related_products = related_collection.products | where: 'available', true | reject: 'id', product.id -%}
+  {%- endif -%}
+
+  {%- if related_products.size > 0 -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="related-products__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="related-products__grid">
+      {%- for related_product in related_products limit: section.settings.product_limit -%}
+        <a href="{{ related_product.url }}" class="related-products__card">
+          <div class="related-products__card-image">
+            {%- if related_product.compare_at_price > related_product.price -%}
+              {%- assign discount_percent = related_product.compare_at_price | minus: related_product.price | times: 100 | divided_by: related_product.compare_at_price -%}
+              <span class="related-products__card-badge">-{{ discount_percent }}%</span>
+            {%- endif -%}
+            {%- if related_product.featured_image != blank -%}
+              {{ related_product.featured_image | image_url: width: 500 | image_tag: sizes: '25vw', class: 'related-products__card-img', alt: related_product.featured_image.alt | default: related_product.title }}
+            {%- endif -%}
+          </div>
+          <div class="related-products__card-title">{{ related_product.title }}</div>
+          <div class="related-products__card-price">
+            {%- if related_product.compare_at_price > related_product.price -%}
+              <span class="related-products__card-price-compare">{{ related_product.compare_at_price | money }}</span>
+            {%- endif -%}
+            <span class="related-products__card-price-current">{{ related_product.price | money }}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .related-products {
+    padding: 0 0 8.125rem;
+  }
+
+  .related-products__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 36px;
+    margin: 0 0 2.5rem;
+  }
+
+  .related-products__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.875rem;
+  }
+
+  .related-products__card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .related-products__card-image {
+    position: relative;
+    aspect-ratio: 1 / 1.05;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background: var(--color-surface);
+    border-radius: 4px;
+  }
+
+  .related-products__card-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    font-size: 9px;
+    font-weight: 600;
+  }
+
+  .related-products__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .related-products__card-title {
+    font-size: 16px;
+    font-family: var(--font-heading--family);
+    margin-bottom: 0.25rem;
+  }
+
+  .related-products__card-price {
+    color: var(--color-muted);
+    font-size: 13px;
+  }
+
+  .related-products__card-price-compare {
+    color: var(--color-muted);
+    text-decoration: line-through;
+    opacity: 0.7;
+    margin-right: 0.4rem;
+  }
+
+  @media (max-width: 900px) {
+    .related-products__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.related_products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "t:labels.product_limit",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

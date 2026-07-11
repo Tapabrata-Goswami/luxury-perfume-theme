@@ -1,0 +1,74 @@
+<div class="features">
+  <div class="features__fade">
+    <div class="features__track">
+      {%- render 'features-track', blocks: section.blocks -%}
+      {%- render 'features-track', blocks: section.blocks -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .features {
+    padding: 1.25rem 0;
+    background: linear-gradient(
+      to right,
+      var(--color-background) 0%,
+      var(--color-gold-dark) 12%,
+      var(--color-gold-dark) 88%,
+      var(--color-background) 100%
+    );
+  }
+
+  .features__fade {
+    overflow: hidden;
+  }
+
+  .features__track {
+    display: flex;
+    align-items: flex-start;
+    width: max-content;
+    gap: 4rem;
+    animation: features-marquee 40s linear infinite;
+  }
+
+  .features__track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes features-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .features__track {
+      gap: 1.75rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.features",
+  "blocks": [
+    {
+      "type": "feature"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.features",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "hourglass", "title": "Long-Lasting" } },
+        { "type": "feature", "settings": { "icon": "droplet-slash", "title": "Alcohol Free" } },
+        { "type": "feature", "settings": { "icon": "gem", "title": "Premium Oils" } },
+        { "type": "feature", "settings": { "icon": "plane", "title": "Travel Friendly" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

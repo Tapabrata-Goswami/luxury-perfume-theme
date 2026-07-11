@@ -1,0 +1,310 @@
+<div class="cart-page">
+  <h1 class="cart-page__heading">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <div class="cart-page__layout">
+      {%- form 'cart', cart, class: 'cart-page__form' -%}
+        <ul class="cart-page__items">
+          {%- for item in cart.items -%}
+            <li class="cart-page__item">
+              <a href="{{ item.url }}" class="cart-page__item-image">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 240 | image_tag: sizes: '120px', alt: item.title, width: 120, height: 120 }}
+                {%- endif -%}
+              </a>
+
+              <div class="cart-page__item-info">
+                <a href="{{ item.url }}" class="cart-page__item-title">{{ item.product.title }}</a>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <div class="cart-page__item-variant">{{ item.variant.title }}</div>
+                {%- endif -%}
+                <div class="cart-page__item-price">
+                  {%- if item.variant.compare_at_price > item.final_price -%}
+                    <span class="cart-page__item-price-compare">{{ item.variant.compare_at_price | money }}</span>
+                  {%- endif -%}
+                  <span class="cart-page__item-price-current">{{ item.final_price | money }}</span>
+                </div>
+                <a href="{{ item.url_to_remove }}" class="cart-page__item-remove">{{ 'cart.remove' | t }}</a>
+              </div>
+
+              <div class="cart-page__item-qty">
+                <label class="cart-page__item-qty-label" for="CartQty-{{ forloop.index }}">{{ 'cart.quantity' | t }}</label>
+                <input
+                  type="number"
+                  id="CartQty-{{ forloop.index }}"
+                  class="cart-page__item-qty-input"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  min="0"
+                >
+              </div>
+
+              <div class="cart-page__item-total">{{ item.final_line_price | money }}</div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="cart-page__form-actions">
+          <a href="{{ routes.all_products_collection_url }}" class="cart-page__continue-link">
+            &larr; {{ 'cart.continue_shopping' | t }}
+          </a>
+          <button type="submit" name="update" class="cart-page__update-button">{{ 'cart.update' | t }}</button>
+        </div>
+      {%- endform -%}
+
+      <div class="cart-page__summary">
+        <div class="cart-page__summary-row cart-page__summary-row--total">
+          <span>{{ 'cart.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="cart-page__summary-note">{{ 'cart.taxes_note' | t }}</p>
+
+        {%- form 'cart', cart -%}
+          <button type="submit" name="checkout" class="cart-page__checkout-button">
+            {{- 'cart.checkout' | t -}}
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  {%- else -%}
+    <div class="cart-page__empty">
+      <p>{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-page__empty-link">
+        {{- 'cart.continue_shopping' | t -}}
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .cart-page {
+    padding: 4rem 4rem 8rem;
+  }
+
+  .cart-page__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 40px;
+    margin: 0 0 2.5rem;
+  }
+
+  .cart-page__layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .cart-page__items {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cart-page__item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto auto;
+    gap: 1.5rem;
+    align-items: start;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cart-page__item-image {
+    display: block;
+    width: 120px;
+    height: 120px;
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+
+  .cart-page__item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cart-page__item-title {
+    display: block;
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 17px;
+    font-family: var(--font-heading--family);
+    margin-bottom: 0.375rem;
+  }
+
+  .cart-page__item-variant {
+    color: var(--color-muted);
+    font-size: 13px;
+    margin-bottom: 0.5rem;
+  }
+
+  .cart-page__item-price {
+    font-size: 14px;
+    margin-bottom: 0.75rem;
+  }
+
+  .cart-page__item-price-current {
+    color: var(--color-gold);
+  }
+
+  .cart-page__item-price-compare {
+    color: var(--color-muted);
+    text-decoration: line-through;
+    margin-right: 0.4rem;
+  }
+
+  .cart-page__item-remove {
+    color: var(--color-muted);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+
+  .cart-page__item-qty {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cart-page__item-qty-label {
+    color: var(--color-muted);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cart-page__item-qty-input {
+    width: 64px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+
+  .cart-page__item-total {
+    color: var(--color-foreground);
+    font-size: 15px;
+    align-self: center;
+    justify-self: end;
+  }
+
+  .cart-page__form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cart-page__continue-link {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cart-page__update-button {
+    background: transparent;
+    border: 1px solid var(--color-gold-dark);
+    color: var(--color-gold);
+    padding: 0.875rem 1.75rem;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .cart-page__summary {
+    position: sticky;
+    top: 6.25rem;
+    border: 1px solid var(--color-border);
+    padding: 1.75rem;
+    background: var(--color-surface);
+  }
+
+  .cart-page__summary-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-foreground);
+    font-size: 17px;
+    margin-bottom: 0.5rem;
+  }
+
+  .cart-page__summary-note {
+    color: var(--color-muted);
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+  }
+
+  .cart-page__checkout-button {
+    display: block;
+    width: 100%;
+    background: var(--color-gold-dark);
+    color: var(--color-background);
+    text-align: center;
+    padding: 1rem;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .cart-page__empty {
+    text-align: center;
+    padding: 5rem 0;
+    color: var(--color-muted);
+  }
+
+  .cart-page__empty-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: var(--color-gold);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-gold);
+    padding-bottom: 0.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .cart-page__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .cart-page__item {
+      grid-template-columns: 90px 1fr;
+    }
+
+    .cart-page__item-qty,
+    .cart-page__item-total {
+      grid-column: 2;
+    }
+
+    .cart-page__summary {
+      position: static;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .cart-page {
+      padding: 2.5rem 0 5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cart",
+  "settings": []
+}
+{% endschema %}

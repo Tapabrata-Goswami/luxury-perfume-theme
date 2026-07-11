@@ -1,0 +1,141 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Skeleton",
+    "theme_version": "0.1.0",
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:general.favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:labels.favicon",
+        "info": "t:labels.favicon_info"
+      }
+    ]
+  },
+  {
+    "name": "t:general.layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "t:labels.page_width",
+        "options": [
+          {
+            "value": "75rem",
+            "label": "t:options.page_width.narrow"
+          },
+          {
+            "value": "87.5rem",
+            "label": "t:options.page_width.wide"
+          }
+        ],
+        "default": "87.5rem"
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.page_margin",
+        "default": 64
+      }
+    ]
+  },
+  {
+    "name": "t:general.colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "default": "#0c0b0a",
+        "label": "t:labels.background"
+      },
+      {
+        "type": "color",
+        "id": "foreground_color",
+        "default": "#f2ece2",
+        "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "gold_color",
+        "default": "#d9b96a",
+        "label": "t:labels.gold_color"
+      },
+      {
+        "type": "color",
+        "id": "gold_dark_color",
+        "default": "#b8860b",
+        "label": "t:labels.gold_dark_color"
+      },
+      {
+        "type": "color",
+        "id": "muted_color",
+        "default": "#8a8072",
+        "label": "t:labels.muted_color"
+      },
+      {
+        "type": "color",
+        "id": "secondary_text_color",
+        "default": "#a89a83",
+        "label": "t:labels.secondary_text_color"
+      },
+      {
+        "type": "color",
+        "id": "surface_color",
+        "default": "#151310",
+        "label": "t:labels.surface_color"
+      },
+      {
+        "type": "color",
+        "id": "surface_dark_color",
+        "default": "#080706",
+        "label": "t:labels.surface_dark_color"
+      },
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.input_corner_radius",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:general.social_media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram_url",
+        "label": "t:labels.instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook_url",
+        "label": "t:labels.facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_url",
+        "label": "t:labels.tiktok"
+      },
+      {
+        "type": "text",
+        "id": "social_whatsapp_number",
+        "label": "t:labels.whatsapp",
+        "info": "t:labels.whatsapp_info"
+      }
+    ]
+  }
+]

@@ -1,0 +1,70 @@
+{% doc %}
+  Renders a single crossfading background slide for the hero media panel.
+  Slides are stacked absolutely; JS in the parent section toggles the
+  `is-active` class to cycle between them.
+
+  @example
+  {% content_for 'block', type: 'hero-slide', id: 'hero-slide-1' %}
+{% enddoc %}
+
+<div class="hero__slide" {{ block.shopify_attributes }}>
+  {%- if block.settings.image != blank -%}
+    {{ block.settings.image | image_url: width: 1400 | image_tag: sizes: '50vw', class: 'hero__slide-img', alt: block.settings.image.alt | default: '' }}
+  {%- elsif block.settings.fallback_asset != blank -%}
+    <img
+      class="hero__slide-img"
+      src="{{ block.settings.fallback_asset | asset_url }}"
+      alt=""
+      width="1400"
+      height="1400"
+      loading="lazy"
+    >
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.6s ease;
+  }
+
+  .hero__slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .hero__slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse at center, black 55%, transparent 100%);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.hero_slide",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "t:labels.fallback_asset",
+      "info": "t:labels.fallback_asset_info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero_slide"
+    }
+  ]
+}
+{% endschema %}

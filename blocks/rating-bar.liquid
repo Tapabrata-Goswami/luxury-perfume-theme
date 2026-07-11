@@ -1,0 +1,86 @@
+{% doc %}
+  Renders a single star-rating breakdown bar (e.g. "5 ★ ▬▬▬▬ 197").
+
+  @example
+  {% content_for 'block', type: 'rating-bar', id: 'rating-bar-5' %}
+{% enddoc %}
+
+<div class="rating-bar" {{ block.shopify_attributes }}>
+  <div class="rating-bar__label">{{ block.settings.stars }} &#9733;</div>
+  <div class="rating-bar__track">
+    <div class="rating-bar__fill" style="--percent: {{ block.settings.percent }}%;"></div>
+  </div>
+  <div class="rating-bar__count">{{ block.settings.count }}</div>
+</div>
+
+{% stylesheet %}
+  .rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rating-bar__label {
+    color: var(--color-muted);
+    font-size: 12px;
+    width: 60px;
+  }
+
+  .rating-bar__track {
+    flex: 1;
+    height: 6px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+  }
+
+  .rating-bar__fill {
+    height: 100%;
+    background: var(--color-gold-dark);
+    width: var(--percent);
+  }
+
+  .rating-bar__count {
+    color: var(--color-muted);
+    font-size: 12px;
+    width: 28px;
+    text-align: right;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.rating_bar",
+  "settings": [
+    {
+      "type": "range",
+      "id": "stars",
+      "label": "t:labels.stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "percent",
+      "label": "t:labels.percent",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "count",
+      "label": "t:labels.count",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.rating_bar"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,65 @@
+<div class="explore-collections">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="explore-collections__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  <div class="explore-collections__grid">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .explore-collections {
+    padding: 4rem 0 5.625rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .explore-collections__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 28px;
+    margin: 0 0 2rem;
+  }
+
+  .explore-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .explore-collections__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.explore_collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Explore by Collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection-link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.explore_collections",
+      "blocks": [
+        { "type": "collection-link", "settings": { "label": "Best Sellers", "url": "/collections/best-sellers" } },
+        { "type": "collection-link", "settings": { "label": "Men's Fragrances", "url": "/collections/mens-fragrances" } },
+        { "type": "collection-link", "settings": { "label": "Women's Fragrances", "url": "/collections/womens-fragrances" } },
+        { "type": "collection-link", "settings": { "label": "Unisex Perfumes", "url": "/collections/unisex-perfumes" } },
+        { "type": "collection-link", "settings": { "label": "Discovery Set", "url": "/collections/discovery-set" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,92 @@
+<div class="story-intro">
+  {%- if section.settings.eyebrow != blank -%}
+    <div class="story-intro__eyebrow">{{ section.settings.eyebrow }}</div>
+  {%- endif -%}
+  <h1 class="story-intro__heading">
+    {{ section.settings.heading_line1 }}<br>
+    {{ section.settings.heading_line2 }}
+    {%- if section.settings.heading_emphasis != blank %}
+      <span class="story-intro__emphasis">{{ section.settings.heading_emphasis }}</span>
+    {%- endif %}
+    {{ section.settings.heading_line2_suffix }}
+  </h1>
+</div>
+
+{% stylesheet %}
+  .story-intro {
+    padding: 6.875rem 0 6.25rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .story-intro__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-intro__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 58px;
+    line-height: 1.15;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 700px) {
+    .story-intro__heading {
+      font-size: 34px;
+    }
+  }
+
+  .story-intro__emphasis {
+    color: var(--color-gold);
+    font-style: italic;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.story_intro",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "The House"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "t:labels.heading_line1",
+      "default": "We didn't want to make another perfume."
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "t:labels.heading_line2",
+      "default": "We wanted to make"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "t:labels.heading_emphasis",
+      "default": "the"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2_suffix",
+      "label": "t:labels.heading_line2_suffix",
+      "default": "perfume."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.story_intro"
+    }
+  ]
+}
+{% endschema %}
