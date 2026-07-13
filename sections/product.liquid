@@ -151,32 +151,38 @@
 
       <div class="product-detail__trust">
         <div class="product-detail__trust-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 7h11v9H3z" />
-            <path d="M14 10h4l3 3v3h-7z" />
-            <circle cx="7.5" cy="18" r="1.5" />
-            <circle cx="17.5" cy="18" r="1.5" />
-          </svg>
-          <span>{{ 'product.trust_shipping' | t }}</span>
+          <span class="product-detail__trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7h11v9H3z" />
+              <path d="M14 10h4l3 3v3h-7z" />
+              <circle cx="7.5" cy="18" r="1.5" />
+              <circle cx="17.5" cy="18" r="1.5" />
+            </svg>
+          </span>
+          <span class="product-detail__trust-label">{{ 'product.trust_shipping' | t }}</span>
         </div>
         <div class="product-detail__trust-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="8" width="18" height="12" rx="1" />
-            <path d="M3 12h18" />
-            <path d="M12 8v12" />
-            <path d="M8 8c-1.5 0-2.5-1-2.5-2.5S6.5 3 8 3c1.5 0 4 2 4 5" />
-            <path d="M16 8c1.5 0 2.5-1 2.5-2.5S17.5 3 16 3c-1.5 0-4 2-4 5" />
-          </svg>
-          <span>{{ 'product.trust_packaging' | t }}</span>
+          <span class="product-detail__trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="8" width="18" height="12" rx="1" />
+              <path d="M3 12h18" />
+              <path d="M12 8v12" />
+              <path d="M8 8c-1.5 0-2.5-1-2.5-2.5S6.5 3 8 3c1.5 0 4 2 4 5" />
+              <path d="M16 8c1.5 0 2.5-1 2.5-2.5S17.5 3 16 3c-1.5 0-4 2-4 5" />
+            </svg>
+          </span>
+          <span class="product-detail__trust-label">{{ 'product.trust_packaging' | t }}</span>
         </div>
         <div class="product-detail__trust-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
-            <rect x="3" y="13" width="4" height="6" rx="1.5" />
-            <rect x="17" y="13" width="4" height="6" rx="1.5" />
-            <path d="M19 19v1a2 2 0 0 1-2 2h-3" />
-          </svg>
-          <span>{{ 'product.trust_support' | t }}</span>
+          <span class="product-detail__trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+              <rect x="3" y="13" width="4" height="6" rx="1.5" />
+              <rect x="17" y="13" width="4" height="6" rx="1.5" />
+              <path d="M19 19v1a2 2 0 0 1-2 2h-3" />
+            </svg>
+          </span>
+          <span class="product-detail__trust-label">{{ 'product.trust_support' | t }}</span>
         </div>
       </div>
 
@@ -494,6 +500,7 @@
     border: none;
     cursor: pointer;
     font-family: inherit;
+    border-radius: 4px;
   }
 
   .product-detail__add-button:disabled {
@@ -504,26 +511,52 @@
   .product-detail__trust {
     display: flex;
     justify-content: space-between;
-    gap: 0.75rem;
-    padding: 1.25rem 0.5rem;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
     margin-bottom: 3rem;
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
   }
 
   .product-detail__trust-item {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
     flex: 1;
+    padding: 0 0.5rem;
   }
 
-  .product-detail__trust-item span {
+  .product-detail__trust-item:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 65%;
+    background: var(--color-border);
+  }
+
+  .product-detail__trust-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(217, 185, 106, 0.1);
+    border: 1px solid rgba(217, 185, 106, 0.25);
+  }
+
+  .product-detail__trust-label {
     color: var(--color-muted);
     font-size: 11px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     line-height: 1.3;
   }
 

@@ -6,26 +6,13 @@
 {% enddoc %}
 
 <div class="step" {{ block.shopify_attributes }}>
-  {%- if block.settings.icon != 'none' -%}
-    <svg class="step__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      {%- case block.settings.icon -%}
-        {%- when 'droplet' -%}
-          <path d="M12 4c-2.5 3-4 5.6-4 7.8a4 4 0 0 0 8 0C16 9.6 14.5 7 12 4Z" />
-          <path d="M6 19h12" />
-        {%- when 'hourglass' -%}
-          <path d="M6 3h12" />
-          <path d="M6 21h12" />
-          <path d="M7 3c0 3.5 2.2 5.3 5 6-2.8.7-5 2.5-5 6" />
-          <path d="M17 3c0 3.5-2.2 5.3-5 6 2.8.7 5 2.5 5 6" />
-        {%- when 'refresh' -%}
-          <path d="M4 12a8 8 0 0 1 14-5.3" />
-          <path d="M20 12a8 8 0 0 1-14 5.3" />
-          <path d="M18 4v4h-4" />
-          <path d="M6 20v-4h4" />
-      {%- endcase -%}
-    </svg>
-  {%- endif -%}
-  <div class="step__number">{{ block.settings.number }}</div>
+  <div class="step__circle" style="animation: step-glow-{{ block.settings.glow_order }} 6s ease-in-out infinite;">
+    {%- if block.settings.icon != blank -%}
+      {{ block.settings.icon | image_url: width: 60 | image_tag: class: 'step__icon', alt: '', loading: 'lazy' }}
+    {%- elsif block.settings.fallback_asset != blank -%}
+      <img class="step__icon" src="{{ block.settings.fallback_asset | asset_url }}" alt="" width="26" height="26" loading="lazy">
+    {%- endif -%}
+  </div>
   <div class="step__title">{{ block.settings.title }}</div>
   <div class="step__body">{{ block.settings.body }}</div>
 </div>
@@ -37,24 +24,56 @@
     position: relative;
   }
 
-  .step__icon {
-    display: block;
-    margin: 0 auto 1rem;
-  }
-
-  .step__number {
-    width: 52px;
-    height: 52px;
+  .step__circle {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: var(--color-background);
-    border: 1px solid var(--color-gold-dark);
-    color: var(--color-gold);
-    font-family: var(--font-heading--family);
-    font-size: 20px;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes step-glow-1 {
+    0%, 4% {
+      background: #fff;
+      box-shadow: none;
+    }
+    10%, 100% {
+      background: var(--color-gold-dark);
+      box-shadow: 0 12px 30px rgba(184, 134, 11, 0.35);
+    }
+  }
+
+  @keyframes step-glow-2 {
+    0%, 30% {
+      background: #fff;
+      box-shadow: none;
+    }
+    38%, 100% {
+      background: var(--color-gold-dark);
+      box-shadow: 0 12px 30px rgba(184, 134, 11, 0.35);
+    }
+  }
+
+  @keyframes step-glow-3 {
+    0%, 58% {
+      background: #fff;
+      box-shadow: none;
+    }
+    66%, 100% {
+      background: var(--color-gold-dark);
+      box-shadow: 0 12px 30px rgba(184, 134, 11, 0.35);
+    }
+  }
+
+  .step__icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
   }
 
   .step__title {
@@ -78,19 +97,13 @@
       padding: 0;
     }
 
-    .step__icon {
+    .step__circle {
       grid-column: 1;
-      grid-row: 1;
-      margin: 0 auto;
-    }
-
-    .step__number {
-      grid-column: 1;
-      grid-row: 2;
-      width: 44px;
-      height: 44px;
-      font-size: 16px;
-      margin: 0.625rem auto 0;
+      grid-row: 1 / span 2;
+      width: 52px;
+      height: 52px;
+      margin: 0;
+      align-self: start;
     }
 
     .step__title {
@@ -113,22 +126,15 @@
   "name": "t:general.step",
   "settings": [
     {
-      "type": "select",
+      "type": "image_picker",
       "id": "icon",
-      "label": "t:labels.icon",
-      "options": [
-        { "value": "none", "label": "t:options.icon.none" },
-        { "value": "droplet", "label": "t:options.icon.droplet" },
-        { "value": "hourglass", "label": "t:options.icon.hourglass" },
-        { "value": "refresh", "label": "t:options.icon.refresh" }
-      ],
-      "default": "droplet"
+      "label": "t:labels.icon"
     },
     {
       "type": "text",
-      "id": "number",
-      "label": "t:labels.number",
-      "default": "01"
+      "id": "fallback_asset",
+      "label": "t:labels.fallback_asset",
+      "info": "t:labels.fallback_asset_info"
     },
     {
       "type": "text",
@@ -141,14 +147,22 @@
       "id": "body",
       "label": "t:labels.body",
       "default": "Step description."
+    },
+    {
+      "type": "select",
+      "id": "glow_order",
+      "label": "t:labels.glow_order",
+      "options": [
+        { "value": "1", "label": "t:options.glow_order.first" },
+        { "value": "2", "label": "t:options.glow_order.second" },
+        { "value": "3", "label": "t:options.glow_order.third" }
+      ],
+      "default": "1"
     }
   ],
   "presets": [
     {
-      "name": "t:general.step",
-      "settings": {
-        "icon": "droplet"
-      }
+      "name": "t:general.step"
     }
   ]
 }

@@ -1,0 +1,198 @@
+<div class="policy-page">
+  <div class="policy-page__breadcrumb">
+    <a href="{{ routes.root_url }}">{{ 'general.maison' | t }}</a>
+    &#47;
+    <span>{{ section.settings.title }}</span>
+  </div>
+
+  <h1 class="policy-page__title">{{ section.settings.title }}</h1>
+
+  {%- if section.settings.last_updated != blank -%}
+    <p class="policy-page__updated">Last Updated: {{ section.settings.last_updated }}</p>
+  {%- endif -%}
+
+  <div class="policy-page__body">
+    <h2>Introduction</h2>
+    <p>This Privacy Policy explains how Saint Samson Parfums (&#8216;Saint Samson&#8217;, &#8216;we&#8217;, &#8216;our&#8217;, or &#8216;us&#8217;) collects, uses, stores, shares, and protects your personal information when you visit our website, purchase products, create an account, subscribe to marketing communications, or otherwise interact with our services. By using our website or purchasing our products, you consent to the practices described in this Privacy Policy.</p>
+
+    <h2>Information We Collect</h2>
+    <p>We may collect contact information (name, email, phone number, billing and shipping addresses), account information, order history, payment confirmations, device and browser information, IP address, cookies, shopping activity, wishlists, reviews, communications with customer support, and other information you voluntarily provide.</p>
+
+    <h2>How We Collect Information</h2>
+    <p>Information is collected directly from you, automatically through cookies, pixels and similar technologies, and from trusted third-party providers including Shopify, payment processors, shipping partners, analytics providers, fraud prevention services and advertising partners.</p>
+
+    <h2>How We Use Your Information</h2>
+    <p>We use your information to process orders, provide customer service, fulfill shipments, process returns, personalize your shopping experience, improve our website, detect fraud, comply with legal obligations, send transactional communications, and&mdash;with your consent&mdash;send promotional emails and SMS messages.</p>
+
+    <h2>Payments</h2>
+    <p>Payments may be processed through trusted third-party providers such as Shopify Payments, Stripe, Shop Pay, PayPal, Apple Pay, Google Pay, Amazon Pay or other authorized processors. Saint Samson does not store complete payment card numbers.</p>
+
+    <h2>Cookies and Analytics</h2>
+    <p>We use cookies, pixels, web beacons and similar technologies to remember preferences, maintain shopping carts, measure website performance, analyze traffic, improve functionality and deliver relevant advertising. You may disable cookies through your browser, although some website features may not function properly.</p>
+
+    <h2>Advertising</h2>
+    <p>We may use Google Analytics 4, Meta Pixel, TikTok Pixel, Shopify Audiences, Klaviyo and similar services to better understand customer behavior and provide relevant advertising. These providers maintain their own privacy policies.</p>
+
+    <h2>SMS &amp; Email Marketing</h2>
+    <p>If you opt in, you may receive marketing emails and recurring automated SMS messages about new products, promotions and abandoned carts. Consent is not a condition of purchase. Reply STOP to unsubscribe from SMS or use the unsubscribe link in emails. Message and data rates may apply.</p>
+
+    <h2>Sharing Information</h2>
+    <p>We share personal information only when necessary to operate our business, including with technology providers, payment processors, shipping carriers, fraud prevention services, customer support vendors, legal authorities when required, and in connection with business transactions. We do not sell your personal information for monetary consideration.</p>
+
+    <h2>Data Security</h2>
+    <p>We use commercially reasonable administrative, technical and physical safeguards to protect personal information. No security system is completely secure, and transmission over the internet cannot be guaranteed to be 100% secure.</p>
+
+    <h2>Data Retention</h2>
+    <p>We retain information only as long as reasonably necessary to fulfill orders, maintain accounts, comply with tax and legal obligations, resolve disputes, and enforce agreements.</p>
+
+    <h2>Your Privacy Rights</h2>
+    <p>Depending on your jurisdiction, you may have rights to access, correct, delete, restrict, object to processing, withdraw consent, request portability, or appeal certain privacy decisions. California residents and residents of other applicable U.S. states may have additional rights under applicable law.</p>
+
+    <h2>Children</h2>
+    <p>Our website is not directed to children under 16, and we do not knowingly collect personal information from children.</p>
+
+    <h2>International Transfers</h2>
+    <p>Your information may be processed and stored in the United States or other countries where our service providers operate, subject to applicable legal safeguards.</p>
+
+    <h2>Changes</h2>
+    <p>We may update this Privacy Policy periodically. Changes become effective when posted on our website.</p>
+
+    <h2>Contact</h2>
+    <p>
+      Saint Samson Parfums<br>
+      Email: <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a><br>
+      Website: <a href="{{ section.settings.website_url }}">{{ section.settings.website_url }}</a>
+    </p>
+    <p>For privacy requests, contact us using the email above.</p>
+
+    <h2>Shopify-Specific Notice</h2>
+    <p>Our online store is powered by Shopify. Shopify may collect and process personal information necessary to provide ecommerce functionality, fraud prevention, payment processing and website performance.</p>
+
+    <h2>SMS Compliance</h2>
+    <p>By opting into SMS marketing, you agree to receive recurring automated marketing messages. Consent is not a condition of purchase. Reply STOP to cancel or HELP for assistance. Carrier message and data rates may apply. Mobile opt-in information is not shared with third parties for their own marketing purposes.</p>
+  </div>
+</div>
+
+{% stylesheet %}
+  .policy-page {
+    padding: 3rem 4rem 8rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .policy-page__breadcrumb {
+    color: var(--color-muted);
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+  }
+
+  .policy-page__breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .policy-page__breadcrumb span {
+    color: #e5dccb;
+  }
+
+  .policy-page__title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 42px;
+    margin: 0 0 0.75rem;
+  }
+
+  .policy-page__updated {
+    color: var(--color-muted);
+    font-size: 13px;
+    margin: 0 0 2.5rem;
+  }
+
+  .policy-page__body {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .policy-page__body h1,
+  .policy-page__body h2,
+  .policy-page__body h3 {
+    font-family: var(--font-heading--family);
+    color: var(--color-foreground);
+    font-weight: 500;
+    margin: 2rem 0 1rem;
+  }
+
+  .policy-page__body h2 {
+    font-size: 26px;
+  }
+
+  .policy-page__body h3 {
+    font-size: 20px;
+  }
+
+  .policy-page__body p {
+    margin: 0 0 1.25rem;
+  }
+
+  .policy-page__body a {
+    color: var(--color-gold);
+  }
+
+  .policy-page__body ul,
+  .policy-page__body ol {
+    margin: 0 0 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .policy-page__body li {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .policy-page {
+      padding: 2.5rem 0 5rem;
+    }
+
+    .policy-page__title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.privacy_policy",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "text",
+      "id": "last_updated",
+      "label": "t:labels.last_updated",
+      "default": "July 12, 2026"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "t:labels.email",
+      "default": "support@saintsamsonparfums.com"
+    },
+    {
+      "type": "text",
+      "id": "website_url",
+      "label": "t:labels.website_url",
+      "default": "https://saintsamsonparfums.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.privacy_policy"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "refund-policy": {
+      "type": "refund-policy"
+    }
+  },
+  "order": [
+    "refund-policy"
+  ]
+}

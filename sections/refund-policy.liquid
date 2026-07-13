@@ -1,0 +1,188 @@
+<div class="policy-page">
+  <div class="policy-page__breadcrumb">
+    <a href="{{ routes.root_url }}">{{ 'general.maison' | t }}</a>
+    &#47;
+    <span>{{ section.settings.title }}</span>
+  </div>
+
+  <h1 class="policy-page__title">{{ section.settings.title }}</h1>
+
+  {%- if section.settings.last_updated != blank -%}
+    <p class="policy-page__updated">Last Updated: {{ section.settings.last_updated }}</p>
+  {%- endif -%}
+
+  <div class="policy-page__body">
+    <h2>Our Policy</h2>
+    <p>We want you to love your Saint Samson Parfums fragrance oil. If you are not fully satisfied, unopened items may be returned within {{ section.settings.return_window }} days of delivery for a refund to your original payment method, subject to the conditions below.</p>
+
+    <h2>Eligibility for Returns</h2>
+    <p>To be eligible for a return, your item must be unused, unopened, in its original packaging, and in the same condition that you received it. A receipt or proof of purchase is required.</p>
+
+    <h2>Non-Returnable Items</h2>
+    <p>Due to the personal and hygienic nature of fragrance products, opened or used items, discovery sets, gift cards, and final sale or clearance items cannot be returned or refunded, except where required by applicable law.</p>
+
+    <h2>How to Start a Return</h2>
+    <p>Contact us at <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a> with your order number and reason for return. We will provide return instructions, including the return address. Items sent back without first requesting a return will not be accepted.</p>
+
+    <h2>Return Shipping</h2>
+    <p>Customers are responsible for return shipping costs unless the item arrived damaged, defective, or incorrect. We recommend using a trackable shipping method, as we cannot guarantee receipt of returned items lost in transit.</p>
+
+    <h2>Damaged, Defective or Incorrect Items</h2>
+    <p>If you receive a damaged, defective, or incorrect item, contact us within 7 days of delivery with photos of the item and packaging. We will arrange a replacement, exchange, or full refund at no additional cost to you.</p>
+
+    <h2>Refunds</h2>
+    <p>Once your return is received and inspected, we will notify you of the approval or rejection of your refund. Approved refunds are processed to your original method of payment within 5&ndash;10 business days. Shipping costs are non-refundable unless the return is due to our error.</p>
+
+    <h2>Store Credit</h2>
+    <p>At our discretion, and where noted at the time of purchase or promotion, a return may be issued as store credit rather than a cash refund. Store credit does not expire and may be applied toward any future purchase.</p>
+
+    <h2>Exchanges</h2>
+    <p>We only replace items if they are defective, damaged, or incorrect. If you need to exchange an item for the same product, contact us at the email above.</p>
+
+    <h2>Late or Missing Refunds</h2>
+    <p>If you haven&rsquo;t received a refund within the timeframe above, first check your bank or payment provider, as processing times vary. If you&rsquo;ve done this and still have not received your refund, contact us at <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>.</p>
+
+    <h2>Order Cancellations</h2>
+    <p>Orders may be canceled for a full refund only if they have not yet been processed for shipment. Once an order has shipped, our standard return policy applies.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>We may update this Refund Policy periodically. Changes become effective when posted on our website.</p>
+
+    <h2>Contact</h2>
+    <p>
+      Saint Samson Parfums<br>
+      Email: <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a><br>
+      Website: <a href="{{ section.settings.website_url }}">{{ section.settings.website_url }}</a>
+    </p>
+  </div>
+</div>
+
+{% stylesheet %}
+  .policy-page {
+    padding: 3rem 4rem 8rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .policy-page__breadcrumb {
+    color: var(--color-muted);
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+  }
+
+  .policy-page__breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .policy-page__breadcrumb span {
+    color: #e5dccb;
+  }
+
+  .policy-page__title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 42px;
+    margin: 0 0 0.75rem;
+  }
+
+  .policy-page__updated {
+    color: var(--color-muted);
+    font-size: 13px;
+    margin: 0 0 2.5rem;
+  }
+
+  .policy-page__body {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .policy-page__body h1,
+  .policy-page__body h2,
+  .policy-page__body h3 {
+    font-family: var(--font-heading--family);
+    color: var(--color-foreground);
+    font-weight: 500;
+    margin: 2rem 0 1rem;
+  }
+
+  .policy-page__body h2 {
+    font-size: 26px;
+  }
+
+  .policy-page__body h3 {
+    font-size: 20px;
+  }
+
+  .policy-page__body p {
+    margin: 0 0 1.25rem;
+  }
+
+  .policy-page__body a {
+    color: var(--color-gold);
+  }
+
+  .policy-page__body ul,
+  .policy-page__body ol {
+    margin: 0 0 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .policy-page__body li {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .policy-page {
+      padding: 2.5rem 0 5rem;
+    }
+
+    .policy-page__title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.refund_policy",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Refund Policy"
+    },
+    {
+      "type": "text",
+      "id": "last_updated",
+      "label": "t:labels.last_updated",
+      "default": "July 12, 2026"
+    },
+    {
+      "type": "text",
+      "id": "return_window",
+      "label": "t:labels.return_window",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "t:labels.email",
+      "default": "support@saintsamsonparfums.com"
+    },
+    {
+      "type": "text",
+      "id": "website_url",
+      "label": "t:labels.website_url",
+      "default": "https://saintsamsonparfums.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.refund_policy"
+    }
+  ]
+}
+{% endschema %}

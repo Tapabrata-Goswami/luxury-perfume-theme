@@ -1,41 +1,135 @@
 {% doc %}
-  Renders a single internal-linking tile pointing at a collection URL.
+  Renders a single collection panel in an accordion row: collapsed to a
+  narrow label + arrow by default, expanding to reveal a description on
+  hover/focus while its sibling collection-link blocks shrink to make room.
 
   @example
   {% content_for 'block', type: 'collection-link', id: 'collection-link-1' %}
 {% enddoc %}
 
 <a href="{{ block.settings.url | default: '#' }}" class="collection-link" {{ block.shopify_attributes }}>
-  <span class="collection-link__label">{{ block.settings.label }}</span>
-  <span class="collection-link__arrow">&rarr;</span>
+  <div class="collection-link__top">
+    <span class="collection-link__label">{{ block.settings.label }}</span>
+    <span class="collection-link__arrow">&rarr;</span>
+  </div>
+  {%- if block.settings.description != blank -%}
+    <p class="collection-link__description">{{ block.settings.description }}</p>
+  {%- endif -%}
 </a>
 
 {% stylesheet %}
   .collection-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1 0%;
+    min-width: 0;
+    height: 190px;
+    padding: 22px;
+    border-radius: 14px;
+    background: var(--color-surface);
+    border: 1px solid rgba(196, 161, 90, 0.18);
+    color: var(--color-foreground);
+    text-decoration: none;
+    overflow: hidden;
+    transition: flex 0.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s ease, border-color 0.5s ease;
+  }
+
+  .collection-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 100%, rgba(201, 162, 39, 0.22), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .collection-link:hover,
+  .collection-link:focus-visible,
+  .collection-link.is-open {
+    flex: 2.4;
+    border-color: #c9a227;
+    background: #c9a227;
+  }
+
+  .collection-link:hover::before,
+  .collection-link:focus-visible::before,
+  .collection-link.is-open::before {
+    opacity: 1;
+  }
+
+  .collection-link__top {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 1.125rem 1.5rem;
-    border: 1px solid var(--color-border);
-    color: inherit;
-    text-decoration: none;
-    transition: border-color 0.25s ease, color 0.25s ease;
-  }
-
-  .collection-link:hover {
-    border-color: var(--color-gold);
-    color: var(--color-gold);
   }
 
   .collection-link__label {
-    font-size: 14px;
-    letter-spacing: 0.04em;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
     text-transform: uppercase;
+    transition: color 0.4s ease;
+  }
+
+  .collection-link:hover .collection-link__label,
+  .collection-link:focus-visible .collection-link__label,
+  .collection-link.is-open .collection-link__label {
+    color: var(--color-background);
   }
 
   .collection-link__arrow {
+    flex-shrink: 0;
     color: var(--color-gold);
+    transform-origin: center;
+    transition: transform 0.4s ease, color 0.4s ease;
+  }
+
+  .collection-link:hover .collection-link__arrow,
+  .collection-link:focus-visible .collection-link__arrow,
+  .collection-link.is-open .collection-link__arrow {
+    color: var(--color-background);
+    transform: rotate(-45deg) scale(1.6);
+  }
+
+  .collection-link__description {
+    position: relative;
+    z-index: 1;
+    margin: 0.75rem 0 0;
+    max-width: 220px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-secondary-text);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+  }
+
+  .collection-link:hover .collection-link__description,
+  .collection-link:focus-visible .collection-link__description,
+  .collection-link.is-open .collection-link__description {
+    opacity: 1;
+    transform: translateY(0);
+    color: rgba(12, 11, 10, 0.75);
+  }
+
+  @media (max-width: 900px) {
+    .collection-link {
+      height: auto;
+      min-height: 140px;
+      flex: 1 1 auto;
+    }
+
+    .collection-link__description {
+      opacity: 1;
+      transform: none;
+    }
   }
 {% endstylesheet %}
 
@@ -53,6 +147,11 @@
       "type": "url",
       "id": "url",
       "label": "t:labels.url"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description"
     }
   ],
   "presets": [

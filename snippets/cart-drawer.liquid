@@ -83,6 +83,10 @@
       <a href="{{ routes.cart_url }}/checkout" class="cart-drawer__checkout-button">
         {{- 'cart.checkout' | t -}}
       </a>
+      <p class="cart-drawer__secure-note">
+        {{ 'icon-lock.svg' | inline_asset_content }}
+        {{- 'cart.secure_checkout' | t -}}
+      </p>
     </div>
   </div>
 </div>
@@ -351,9 +355,21 @@
     white-space: nowrap;
   }
 
+  .cart-drawer__suggestion-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+  }
+
   .cart-drawer__suggestion-price {
     color: var(--color-gold);
     font-size: 12px;
+  }
+
+  .cart-drawer__suggestion-price-compare {
+    color: var(--color-muted);
+    font-size: 11px;
+    text-decoration: line-through;
   }
 
   .cart-drawer__suggestion-add {
@@ -421,6 +437,25 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-weight: 600;
+    border-radius: 4px;
+  }
+
+  .cart-drawer__secure-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    margin: 0.75rem 0 0;
+    color: var(--color-muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cart-drawer__secure-note svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
   }
 
   @media (max-width: 480px) {
@@ -468,7 +503,18 @@
       document.documentElement.style.overflow = '';
     }
 
-    function renderItem(item) {
+    var productCache = {};
+
+    function getProductData(handle) {
+      if (!productCache[handle]) {
+        productCache[handle] = fetch('/products/' + handle + '.js', { headers: { Accept: 'application/json' } })
+          .then(function (res) { return res.json(); })
+          .catch(function () { return null; });
+      }
+      return productCache[handle];
+    }
+
+    function renderItem(item, compareAtPrice) {
       var variantRow = item.variant_title && item.variant_title !== 'Default Title'
         ? '<div class="cart-drawer__item-variant">' + escapeHtml(item.variant_title) + '</div>'
         : '';
@@ -483,8 +529,8 @@
             '<a href="' + escapeHtml(item.url) + '" class="cart-drawer__item-title">' + escapeHtml(item.product_title) + '</a>' +
             variantRow +
             '<div class="cart-drawer__item-price">' +
-              (item.compare_at_price > item.final_price
-                ? '<span class="cart-drawer__item-price-compare">' + formatMoney(item.compare_at_price) + '</span>'
+              (compareAtPrice > item.final_price
+                ? '<span class="cart-drawer__item-price-compare">' + formatMoney(compareAtPrice) + '</span>'
                 : '') +
               '<span class="cart-drawer__item-price-current">' + formatMoney(item.final_price) + '</span>' +
             '</div>' +
@@ -505,13 +551,20 @@
       var imageMarkup = image
         ? '<img src="' + escapeHtml(image) + '&width=160" alt="' + escapeHtml(product.title) + '" width="56" height="56" loading="lazy">'
         : '';
+      var currentPrice = variant ? variant.price : product.price;
+      var compareAtPrice = variant ? variant.compare_at_price : product.compare_at_price;
 
       return (
         '<div class="cart-drawer__suggestion" data-suggestion-id="' + product.id + '">' +
           '<a href="' + escapeHtml(product.url) + '" class="cart-drawer__suggestion-image">' + imageMarkup + '</a>' +
           '<div class="cart-drawer__suggestion-info">' +
             '<a href="' + escapeHtml(product.url) + '" class="cart-drawer__suggestion-title">' + escapeHtml(product.title) + '</a>' +
-            '<span class="cart-drawer__suggestion-price">' + formatMoney(product.price) + '</span>' +
+            '<div class="cart-drawer__suggestion-price-row">' +
+              (compareAtPrice > currentPrice
+                ? '<span class="cart-drawer__suggestion-price-compare">' + formatMoney(compareAtPrice) + '</span>'
+                : '') +
+              '<span class="cart-drawer__suggestion-price">' + formatMoney(currentPrice) + '</span>' +
+            '</div>' +
           '</div>' +
           (variant
             ? '<button type="button" class="cart-drawer__suggestion-add" data-suggestion-add data-variant-id="' + variant.id + '" aria-label="Add to bag">+</button>'
@@ -565,16 +618,28 @@
       }
 
       footer.removeAttribute('hidden');
-      body.innerHTML = '<ul class="cart-drawer__items">' + cart.items.map(renderItem).join('') + '</ul>' +
-        '<div class="cart-drawer__suggestions" data-cart-suggestions hidden>' +
-          '<div class="cart-drawer__suggestions-title">' + escapeHtml(cartSuggestionsTitle) + '</div>' +
-          '<div class="cart-drawer__suggestions-list" data-cart-suggestions-list></div>' +
-        '</div>';
 
-      var subtotalEl = footer.querySelector('[data-cart-subtotal]');
-      if (subtotalEl) subtotalEl.textContent = formatMoney(cart.total_price);
+      Promise.all(cart.items.map(function (item) {
+        return getProductData(item.handle).then(function (productData) {
+          var variant = productData && productData.variants
+            ? productData.variants.filter(function (v) { return v.id === item.variant_id; })[0]
+            : null;
+          return variant ? variant.compare_at_price : null;
+        });
+      })).then(function (compareAtPrices) {
+        body.innerHTML = '<ul class="cart-drawer__items">' + cart.items.map(function (item, index) {
+          return renderItem(item, compareAtPrices[index]);
+        }).join('') + '</ul>' +
+          '<div class="cart-drawer__suggestions" data-cart-suggestions hidden>' +
+            '<div class="cart-drawer__suggestions-title">' + escapeHtml(cartSuggestionsTitle) + '</div>' +
+            '<div class="cart-drawer__suggestions-list" data-cart-suggestions-list></div>' +
+          '</div>';
 
-      loadSuggestions(cart);
+        var subtotalEl = footer.querySelector('[data-cart-subtotal]');
+        if (subtotalEl) subtotalEl.textContent = formatMoney(cart.total_price);
+
+        loadSuggestions(cart);
+      });
     }
 
     function fetchCart() {

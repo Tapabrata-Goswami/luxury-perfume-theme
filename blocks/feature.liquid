@@ -7,30 +7,11 @@
 
 <div class="feature" {{ block.shopify_attributes }}>
   <div class="feature__icon-badge">
-    <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      {%- case block.settings.icon -%}
-        {%- when 'hourglass' -%}
-          <path d="M6 3h12" />
-          <path d="M6 21h12" />
-          <path d="M7 3c0 3.5 2.2 5.3 5 6-2.8.7-5 2.5-5 6" />
-          <path d="M17 3c0 3.5-2.2 5.3-5 6 2.8.7 5 2.5 5 6" />
-        {%- when 'droplet-slash' -%}
-          <path d="M12 2s-6.5 8-6.5 12.5a6.5 6.5 0 0 0 13 0C18.5 10 12 2 12 2Z" />
-          <path d="M4.5 3.5l15 17" />
-        {%- when 'gem' -%}
-          <path d="M6 3h12l3 5-9 13L3 8Z" />
-          <path d="M3 8h18" />
-        {%- when 'plane' -%}
-          <path d="M3 12l18-8-8 18-2-8-8-2Z" />
-        {%- when 'box' -%}
-          <path d="M3 8l9-5 9 5-9 5-9-5Z" />
-          <path d="M3 8v8l9 5 9-5V8" />
-          <path d="M12 13v8" />
-        {%- when 'sparkle' -%}
-          <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
-          <path d="M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18" />
-      {%- endcase -%}
-    </svg>
+    {%- if block.settings.icon != blank -%}
+      {{ block.settings.icon | image_url: width: 60 | image_tag: class: 'feature__icon', alt: '', loading: 'lazy' }}
+    {%- elsif block.settings.fallback_asset != blank -%}
+      <img class="feature__icon" src="{{ block.settings.fallback_asset | asset_url }}" alt="" width="28" height="28" loading="lazy">
+    {%- endif -%}
   </div>
   <div class="feature__title">{{ block.settings.title }}</div>
 </div>
@@ -62,7 +43,9 @@
   }
 
   .feature__icon {
-    stroke: var(--color-background);
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
   }
 
   .feature__title {
@@ -84,18 +67,15 @@
   "name": "t:general.feature",
   "settings": [
     {
-      "type": "select",
+      "type": "image_picker",
       "id": "icon",
-      "label": "t:labels.icon",
-      "options": [
-        { "value": "hourglass", "label": "t:options.icon.hourglass" },
-        { "value": "droplet-slash", "label": "t:options.icon.droplet_slash" },
-        { "value": "gem", "label": "t:options.icon.gem" },
-        { "value": "plane", "label": "t:options.icon.plane" },
-        { "value": "box", "label": "t:options.icon.box" },
-        { "value": "sparkle", "label": "t:options.icon.sparkle" }
-      ],
-      "default": "hourglass"
+      "label": "t:labels.icon"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "t:labels.fallback_asset",
+      "info": "t:labels.fallback_asset_info"
     },
     {
       "type": "text",

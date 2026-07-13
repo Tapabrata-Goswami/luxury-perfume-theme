@@ -26,7 +26,8 @@
     "taxes_note": "Taxes and shipping calculated at checkout.",
     "decrease_quantity": "Decrease quantity",
     "increase_quantity": "Increase quantity",
-    "you_may_also_like": "You May Also Like"
+    "you_may_also_like": "You May Also Like",
+    "secure_checkout": "Secure Checkout"
   },
   "customers": {
     "login": {
@@ -42,7 +43,6 @@
   "contact": {
     "email": "Email",
     "studio": "Studio",
-    "hours": "Hours",
     "success_title": "Message sent.",
     "success_body": "Thank you — we'll be in touch shortly.",
     "name_label": "Name",

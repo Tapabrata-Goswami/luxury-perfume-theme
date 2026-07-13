@@ -13,7 +13,15 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {}
+      "settings": {
+        "pages_menu": "explore",
+        "support_menu": "customer-account-main-menu",
+        "wordmark_text": "SAINT SAMSON",
+        "tagline": "Fragrance Oils · Paris",
+        "copyright_text": "<p>© 2026 Saint Samson Paris. All fragrances are inspired-by interpretations, independently blended and not affiliated with the original houses.</p>",
+        "contact_email": "orders@saintsamsonparfums.com",
+        "contact_address": "5614 W Grand Parkway S Ste 102, Richmond, TX 77406, United States"
+      }
     }
   },
   "order": [

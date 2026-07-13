@@ -23,12 +23,6 @@
           <div class="contact__detail-value">{{ section.settings.address }}</div>
         </div>
       {%- endif -%}
-      {%- if section.settings.hours != blank -%}
-        <div class="contact__detail">
-          <div class="contact__detail-label">{{ 'contact.hours' | t }}</div>
-          <div class="contact__detail-value">{{ section.settings.hours }}</div>
-        </div>
-      {%- endif -%}
     </div>
   </div>
 
@@ -208,6 +202,7 @@
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;
+    border-radius: 4px;
   }
 
   @media (max-width: 900px) {
@@ -249,19 +244,13 @@
       "type": "text",
       "id": "email",
       "label": "t:labels.email",
-      "default": "hello@saintsamsonparis.example"
+      "default": "orders@saintsamsonparfums.com"
     },
     {
       "type": "text",
       "id": "address",
       "label": "t:labels.address",
       "default": "5614 W Grand Parkway S Ste 102, Richmond, TX 77406, United States"
-    },
-    {
-      "type": "text",
-      "id": "hours",
-      "label": "t:labels.hours",
-      "default": "Mon–Fri, 9:00–18:00 CET"
     }
   ],
   "presets": [

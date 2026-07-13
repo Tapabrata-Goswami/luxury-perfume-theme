@@ -29,14 +29,19 @@
 
               <div class="cart-page__item-qty">
                 <label class="cart-page__item-qty-label" for="CartQty-{{ forloop.index }}">{{ 'cart.quantity' | t }}</label>
-                <input
-                  type="number"
-                  id="CartQty-{{ forloop.index }}"
-                  class="cart-page__item-qty-input"
-                  name="updates[]"
-                  value="{{ item.quantity }}"
-                  min="0"
-                >
+                <div class="cart-page__item-qty-control">
+                  <button type="button" class="cart-page__qty-button" data-cart-page-qty-decrease aria-label="{{ 'cart.decrease_quantity' | t }}">&minus;</button>
+                  <input
+                    type="number"
+                    id="CartQty-{{ forloop.index }}"
+                    class="cart-page__item-qty-input"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    data-cart-page-qty-input
+                  >
+                  <button type="button" class="cart-page__qty-button" data-cart-page-qty-increase aria-label="{{ 'cart.increase_quantity' | t }}">+</button>
+                </div>
               </div>
 
               <div class="cart-page__item-total">{{ item.final_line_price | money }}</div>
@@ -106,7 +111,7 @@
     display: grid;
     grid-template-columns: 120px 1fr auto auto;
     gap: 1.5rem;
-    align-items: start;
+    align-items: center;
     padding: 1.75rem 0;
     border-bottom: 1px solid var(--color-border);
   }
@@ -176,20 +181,46 @@
     text-transform: uppercase;
   }
 
-  .cart-page__item-qty-input {
-    width: 64px;
-    background: transparent;
+  .cart-page__item-qty-control {
+    display: inline-flex;
+    align-items: center;
     border: 1px solid var(--color-border);
+    width: fit-content;
+  }
+
+  .cart-page__qty-button {
+    background: none;
+    border: none;
+    color: var(--color-gold);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    font-family: inherit;
+  }
+
+  .cart-page__item-qty-input {
+    width: 40px;
+    background: transparent;
+    border: none;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
     color: var(--color-foreground);
     font-family: inherit;
     font-size: 14px;
-    padding: 0.5rem;
+    text-align: center;
+    padding: 0.5rem 0.25rem;
+    -moz-appearance: textfield;
+  }
+
+  .cart-page__item-qty-input::-webkit-outer-spin-button,
+  .cart-page__item-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .cart-page__item-total {
     color: var(--color-foreground);
     font-size: 15px;
-    align-self: center;
     justify-self: end;
   }
 
@@ -217,6 +248,7 @@
     text-transform: uppercase;
     cursor: pointer;
     font-family: inherit;
+    border-radius: 4px;
   }
 
   .cart-page__summary {
@@ -256,6 +288,7 @@
     border: none;
     cursor: pointer;
     font-family: inherit;
+    border-radius: 4px;
   }
 
   .cart-page__empty {
@@ -283,11 +316,23 @@
 
     .cart-page__item {
       grid-template-columns: 90px 1fr;
+      align-items: start;
+    }
+
+    .cart-page__item-image,
+    .cart-page__item-image img {
+      width: 90px;
+      height: 90px;
     }
 
     .cart-page__item-qty,
     .cart-page__item-total {
       grid-column: 2;
+      margin-top: 0.75rem;
+    }
+
+    .cart-page__item-total {
+      justify-self: start;
     }
 
     .cart-page__summary {
@@ -301,6 +346,24 @@
     }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('click', function (e) {
+    var decrease = e.target.closest('[data-cart-page-qty-decrease]');
+    var increase = e.target.closest('[data-cart-page-qty-increase]');
+    if (!decrease && !increase) return;
+
+    var control = (decrease || increase).closest('.cart-page__item-qty-control');
+    var input = control && control.querySelector('[data-cart-page-qty-input]');
+    if (!input) return;
+
+    if (decrease) {
+      input.stepDown();
+    } else {
+      input.stepUp();
+    }
+  });
+{% endjavascript %}
 
 {% schema %}
 {

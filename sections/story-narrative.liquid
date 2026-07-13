@@ -1,0 +1,111 @@
+<div class="story-narrative">
+  {%- if section.settings.eyebrow != blank -%}
+    <div class="story-narrative__eyebrow">{{ section.settings.eyebrow }}</div>
+  {%- endif -%}
+  {%- if section.settings.body != blank -%}
+    <div class="story-narrative__body">{{ section.settings.body }}</div>
+  {%- endif -%}
+  {%- if section.settings.closing_line_1 != blank or section.settings.closing_line_2 != blank -%}
+    <div class="story-narrative__closing">
+      {%- if section.settings.closing_line_1 != blank -%}
+        <p>{{ section.settings.closing_line_1 }}</p>
+      {%- endif -%}
+      {%- if section.settings.closing_line_2 != blank -%}
+        <p>{{ section.settings.closing_line_2 }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .story-narrative {
+    padding: 6.25rem 0;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .story-narrative__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-narrative__body p {
+    color: var(--color-secondary-text);
+    font-size: 16px;
+    line-height: 1.9;
+    text-align: left;
+    margin: 0 0 1.75rem;
+  }
+
+  .story-narrative__body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .story-narrative__closing {
+    margin-top: 3.25rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .story-narrative__closing p {
+    font-family: var(--font-heading--family);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-gold);
+    margin: 0 0 0.375rem;
+  }
+
+  .story-narrative__closing p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 700px) {
+    .story-narrative {
+      padding: 4.5rem 1.5rem;
+    }
+
+    .story-narrative__closing p {
+      font-size: 19px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.story_narrative",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "<p>Story copy.</p>"
+    },
+    {
+      "type": "text",
+      "id": "closing_line_1",
+      "label": "t:labels.closing_line_1"
+    },
+    {
+      "type": "text",
+      "id": "closing_line_2",
+      "label": "t:labels.closing_line_2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.story_narrative"
+    }
+  ]
+}
+{% endschema %}

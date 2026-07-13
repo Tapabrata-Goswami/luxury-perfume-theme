@@ -3,6 +3,387 @@
     "contact": {
       "type": "contact"
     },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-cat-about": {
+          "type": "faq-category",
+          "settings": {
+            "title": "About Saint Samson"
+          }
+        },
+        "faq-about-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What is Saint Samson?",
+            "answer": "<p>Saint Samson is a luxury fragrance house specializing in premium fragrance oils and perfumes inspired by some of the world's most iconic scents. Every fragrance is carefully crafted to deliver exceptional quality, impressive longevity, and an unforgettable scent experience.</p>"
+          }
+        },
+        "faq-about-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are Saint Samson fragrances original?",
+            "answer": "<p>Yes.</p><p>Every Saint Samson fragrance is an original creation inspired by legendary perfumes. While certain scent profiles pay homage to well-known fragrances, our products are independently produced and are not affiliated with, endorsed by, or manufactured by any designer fragrance brand.</p>"
+          }
+        },
+        "faq-about-3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What makes Saint Samson different?",
+            "answer": "<p>Saint Samson focuses on:</p><ul><li>Luxury-quality fragrance oils</li><li>High fragrance concentration</li><li>Long-lasting performance</li><li>Elegant minimalist packaging</li><li>Affordable luxury</li><li>Premium ingredients selected for rich scent development</li></ul><p>We believe luxury should be experienced—not overpriced.</p>"
+          }
+        },
+        "faq-cat-products": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Products"
+          }
+        },
+        "faq-products-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are your fragrances perfume oils or spray perfumes?",
+            "answer": "<p>Saint Samson currently offers premium luxury fragrance oils.</p><p>Our perfume collection will be launching soon.</p>"
+          }
+        },
+        "faq-products-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are your fragrance oils alcohol-free?",
+            "answer": "<p>Yes.</p><p>Our fragrance oils are alcohol-free and formulated for smooth application directly onto the skin.</p>"
+          }
+        },
+        "faq-products-3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How long do your fragrance oils last?",
+            "answer": "<p>Longevity varies by skin chemistry, climate, and activity, but our concentrated oil format generally provides 4–8+ hours of wear. For best results, apply to moisturized skin and consider layering with an unscented lotion or another complementary Saint Samson scent.</p><p>Most customers experience:</p><ul><li>8–12+ hours on skin</li><li>Longer on clothing (test fabrics first)</li></ul>"
+          }
+        },
+        "faq-products-4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are Saint Samson fragrances strong?",
+            "answer": "<p>Yes.</p>"
+          }
+        },
+        "faq-products-5": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can I layer different Saint Samson scents?",
+            "answer": "<p>Absolutely. Many customers create signature blends by layering (for example, a touch of Velvet Cherry with Cognac Veil or Apexion with Red Alchemy). Experiment and have fun — this is one of the joys of oil-based fragrances.</p><p>Our fragrances are formulated with a high fragrance concentration designed for excellent longevity and noticeable scent projection without being overwhelming.</p>"
+          }
+        },
+        "faq-products-6": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are your fragrances unisex?",
+            "answer": "<p>Most Saint Samson fragrances are designed to be enjoyed by everyone.</p><p>Some lean slightly masculine or feminine, but fragrance is personal, wear what you love.</p>"
+          }
+        },
+        "faq-products-7": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are your fragrances alcohol-free, vegan, and cruelty-free?",
+            "answer": "<p>Yes. Our oils are completely alcohol-free. We are committed to vegan-friendly and cruelty-free practices.</p>"
+          }
+        },
+        "faq-products-8": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Which fragrance should I choose?",
+            "answer": "<p>Here's a quick guide:</p><p><strong>Apexion</strong><br>Fresh • Pineapple • Bergamot • Woods<br>Perfect for everyday confidence.</p><p><strong>Red Alchemy</strong><br>Amber • Saffron • Jasmine<br>Warm, luxurious, and unforgettable.</p><p><strong>Velvet Cherry</strong><br>Black Cherry • Almond • Vanilla<br>Sweet, seductive, and bold.</p><p><strong>Blush Royale</strong><br>Rose • Lychee • Vanilla<br>Elegant, romantic, and feminine.</p><p><strong>Cognac Veil</strong><br>Cinnamon • Tonka Bean • Vanilla • Oak<br>Warm, rich, and sophisticated.</p>"
+          }
+        },
+        "faq-cat-ingredients": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Ingredients & Safety"
+          }
+        },
+        "faq-ingredients-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are your products cruelty-free?",
+            "answer": "<p>Yes.</p><p>Saint Samson does not test finished products on animals.</p>"
+          }
+        },
+        "faq-ingredients-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are your products safe for sensitive skin?",
+            "answer": "<p>Our products are formulated using cosmetic-grade fragrance ingredients.</p><p>However, we recommend performing a small patch test before full application, especially if you have sensitive skin.</p>"
+          }
+        },
+        "faq-ingredients-3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How do I apply Saint Samson perfume oils?",
+            "answer": "<p>Roll onto clean pulse points: wrists, neck, behind the ears, inner elbows, and décolletage. Start with 2–4 rolls and layer more if desired. The warmth of your skin will naturally diffuse the scent.</p><p>For best performance, apply to pulse points:</p><ul><li>Neck</li><li>Wrists</li><li>Behind the ears</li><li>Inner elbows</li></ul><p>Avoid rubbing the fragrance after application.</p>"
+          }
+        },
+        "faq-cat-orders": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Orders"
+          }
+        },
+        "faq-orders-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders are typically processed within 1–2 business days.</p><p>Shipping times vary based on your location and selected shipping method.</p><p>You'll receive tracking information as soon as your order ships.</p>"
+          }
+        },
+        "faq-orders-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>At launch, Saint Samson primarily ships within the United States.</p><p>International shipping may become available in the future.</p>"
+          }
+        },
+        "faq-orders-3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can I cancel or change my order?",
+            "answer": "<p>If your order has not yet been processed, we'll do our best to accommodate changes.</p><p>Please contact us as soon as possible after placing your order.</p>"
+          }
+        },
+        "faq-orders-4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How can I track my order?",
+            "answer": "<p>Once your package ships, you'll receive an email containing your tracking information.</p>"
+          }
+        },
+        "faq-cat-returns": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Returns"
+          }
+        },
+        "faq-returns-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can I return a fragrance?",
+            "answer": "<p>Due to the personal nature of fragrance products, opened or used items cannot be returned.</p><p>If your order arrives damaged or incorrect, please contact us within 48 hours of delivery.</p>"
+          }
+        },
+        "faq-returns-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What if my order arrives damaged?",
+            "answer": "<p>Please email us with:</p><ul><li>Your order number</li><li>Photos of the damaged package</li><li>Photos of the product</li></ul><p>We'll work quickly to make it right.</p>"
+          }
+        },
+        "faq-cat-payments": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Payments"
+          }
+        },
+        "faq-payments-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "<p>We accept major credit cards, debit cards, Stripe, Shop Pay, Apple Pay, Google Pay, and other secure payment methods available at checkout.</p>"
+          }
+        },
+        "faq-payments-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Is my payment secure?",
+            "answer": "<p>Absolutely.</p><p>All transactions are processed through secure encrypted payment providers. Saint Samson never stores your payment information.</p>"
+          }
+        },
+        "faq-cat-gifting": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Gifting"
+          }
+        },
+        "faq-gifting-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are Saint Samson fragrances good gifts?",
+            "answer": "<p>Absolutely.</p><p>Our fragrances make excellent gifts for birthdays, anniversaries, holidays, graduations, Father's Day, Mother's Day, Valentine's Day, and other special occasions.</p>"
+          }
+        },
+        "faq-gifting-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Do you offer gift packaging?",
+            "answer": "<p>Gift packaging may be available during select promotions and seasonal collections.</p>"
+          }
+        },
+        "faq-cat-brand": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Brand Questions"
+          }
+        },
+        "faq-brand-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What does “Inspired By” mean?",
+            "answer": "<p>Inspired By means a fragrance captures a similar scent profile or olfactory style of a well-known perfume.</p><p>Saint Samson products are independently created and are not copies, counterfeits, or products of any designer fragrance house.</p>"
+          }
+        },
+        "faq-brand-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are Saint Samson fragrances exact dupes of designer perfumes?",
+            "answer": "<p>Our fragrances are original formulations inspired by beloved luxury scents. We carefully study the DNA of iconic fragrances and create our own unique interpretations using high-quality ingredients. While they evoke similar vibes and key notes, they are not identical copies.</p>"
+          }
+        },
+        "faq-brand-3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are you affiliated with designer brands?",
+            "answer": "<p>No.</p><p>Saint Samson is an independent fragrance company and is not affiliated with, endorsed by, or associated with any designer fragrance brand or trademark owner.</p>"
+          }
+        },
+        "faq-brand-4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Where are Saint Samson products made?",
+            "answer": "<p>Saint Samson fragrances are carefully produced using premium fragrance materials and quality-controlled manufacturing processes to ensure a luxurious experience with every bottle.</p>"
+          }
+        },
+        "faq-cat-contact": {
+          "type": "faq-category",
+          "settings": {
+            "title": "Contact"
+          }
+        },
+        "faq-contact-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How can I contact Saint Samson?",
+            "answer": "<p>You can reach us anytime through our Contact page or by emailing our customer support team.</p><p>We typically respond within one business day.</p>"
+          }
+        },
+        "faq-cat-vip": {
+          "type": "faq-category",
+          "settings": {
+            "title": "VIP & Rewards"
+          }
+        },
+        "faq-vip-1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Do you offer discounts?",
+            "answer": "<p>Yes.</p><p>Subscribers receive exclusive offers, early access to new fragrance launches, limited-edition releases, and special promotions.</p><p>Join our email list to stay informed.</p>"
+          }
+        },
+        "faq-vip-2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Which Saint Samson fragrance smells like Creed Aventus?",
+            "answer": "<p>Apexion is inspired by the iconic fresh woody fragrance profile that has made Aventus a modern classic.</p>"
+          }
+        },
+        "faq-vip-3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Which Saint Samson fragrance smells like Baccarat Rouge 540?",
+            "answer": "<p>Red Alchemy offers an amber, saffron, and jasmine scent profile inspired by one of the world's most recognizable luxury fragrances.</p>"
+          }
+        },
+        "faq-vip-4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Which Saint Samson fragrance smells like Tom Ford Lost Cherry?",
+            "answer": "<p>Velvet Cherry is inspired by the rich cherry, almond, and vanilla character of this beloved fragrance.</p>"
+          }
+        },
+        "faq-vip-5": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Which Saint Samson fragrance smells like Delina Exclusif?",
+            "answer": "<p>Blush Royale is inspired by the elegant floral-fruity profile featuring rose, lychee, and creamy vanilla notes.</p>"
+          }
+        },
+        "faq-vip-6": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Which Saint Samson fragrance smells like Kilian Angels’ Share?",
+            "answer": "<p>Cognac Veil is inspired by the warm gourmand profile of cinnamon, tonka bean, oak, and vanilla.</p>"
+          }
+        },
+        "faq-vip-7": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Why should I buy fragrance oil instead of spray perfume?",
+            "answer": "<p>Fragrance oils generally provide:</p><ul><li>Higher fragrance concentration</li><li>Longer-lasting wear</li><li>Alcohol-free application</li><li>Better value per application</li><li>A richer, closer-to-the-skin scent experience</li></ul>"
+          }
+        },
+        "faq-vip-8": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Do you offer wholesale or bulk orders?",
+            "answer": "<p>We are open to select wholesale and partnership opportunities. Please reach out via our contact form or email with details about your business.</p>"
+          }
+        },
+        "faq-vip-9": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Are Saint Samson products available in retail stores?",
+            "answer": "<p>At this time, we are primarily direct-to-consumer through our website and social channels. This allows us to maintain quality control and offer the best experience and pricing directly to our community.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq-cat-about",
+        "faq-about-1",
+        "faq-about-2",
+        "faq-about-3",
+        "faq-cat-products",
+        "faq-products-1",
+        "faq-products-2",
+        "faq-products-3",
+        "faq-products-4",
+        "faq-products-5",
+        "faq-products-6",
+        "faq-products-7",
+        "faq-products-8",
+        "faq-cat-ingredients",
+        "faq-ingredients-1",
+        "faq-ingredients-2",
+        "faq-ingredients-3",
+        "faq-cat-orders",
+        "faq-orders-1",
+        "faq-orders-2",
+        "faq-orders-3",
+        "faq-orders-4",
+        "faq-cat-returns",
+        "faq-returns-1",
+        "faq-returns-2",
+        "faq-cat-payments",
+        "faq-payments-1",
+        "faq-payments-2",
+        "faq-cat-gifting",
+        "faq-gifting-1",
+        "faq-gifting-2",
+        "faq-cat-brand",
+        "faq-brand-1",
+        "faq-brand-2",
+        "faq-brand-3",
+        "faq-brand-4",
+        "faq-cat-contact",
+        "faq-contact-1",
+        "faq-cat-vip",
+        "faq-vip-1",
+        "faq-vip-2",
+        "faq-vip-3",
+        "faq-vip-4",
+        "faq-vip-5",
+        "faq-vip-6",
+        "faq-vip-7",
+        "faq-vip-8",
+        "faq-vip-9"
+      ]
+    },
     "fragrance-quiz": {
       "type": "fragrance-quiz",
       "settings": {
@@ -56,11 +437,16 @@
           }
         }
       },
-      "block_order": ["question-1", "question-2", "question-3"]
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3"
+      ]
     }
   },
   "order": [
     "contact",
+    "faq",
     "fragrance-quiz"
   ]
 }

@@ -7,6 +7,37 @@
   </div>
 </div>
 
+{% javascript %}
+  (function () {
+    function initExploreCollectionsHover(section) {
+      var cards = section.querySelectorAll('.collection-link');
+      cards.forEach(function (card) {
+        if (card.dataset.hoverBound) return;
+        card.dataset.hoverBound = 'true';
+        card.addEventListener('mouseenter', function () {
+          card.classList.add('is-open');
+        });
+        card.addEventListener('mouseleave', function () {
+          card.classList.remove('is-open');
+        });
+        card.addEventListener('focus', function () {
+          card.classList.add('is-open');
+        });
+        card.addEventListener('blur', function () {
+          card.classList.remove('is-open');
+        });
+      });
+    }
+
+    document.querySelectorAll('.explore-collections').forEach(initExploreCollectionsHover);
+
+    document.addEventListener('shopify:section:load', function (event) {
+      var target = event.target.querySelector('.explore-collections');
+      if (target) initExploreCollectionsHover(target);
+    });
+  })();
+{% endjavascript %}
+
 {% stylesheet %}
   .explore-collections {
     padding: 4rem 0 5.625rem;
@@ -21,14 +52,15 @@
   }
 
   .explore-collections__grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+    display: flex;
+    align-items: stretch;
+    gap: 4px;
   }
 
   @media (max-width: 900px) {
     .explore-collections__grid {
-      grid-template-columns: repeat(2, 1fr);
+      flex-direction: column;
+      gap: 1rem;
     }
   }
 {% endstylesheet %}
@@ -53,11 +85,11 @@
     {
       "name": "t:general.explore_collections",
       "blocks": [
-        { "type": "collection-link", "settings": { "label": "Best Sellers", "url": "/collections/best-sellers" } },
-        { "type": "collection-link", "settings": { "label": "Men's Fragrances", "url": "/collections/mens-fragrances" } },
-        { "type": "collection-link", "settings": { "label": "Women's Fragrances", "url": "/collections/womens-fragrances" } },
-        { "type": "collection-link", "settings": { "label": "Unisex Perfumes", "url": "/collections/unisex-perfumes" } },
-        { "type": "collection-link", "settings": { "label": "Discovery Set", "url": "/collections/discovery-set" } }
+        { "type": "collection-link", "settings": { "label": "Best Sellers", "url": "/collections/best-sellers", "description": "Our most-loved fragrance oils, chosen again and again by returning customers." } },
+        { "type": "collection-link", "settings": { "label": "Men's Fragrances", "url": "/collections/mens-fragrances", "description": "Bold, grounded blends inspired by iconic masculine fragrance houses." } },
+        { "type": "collection-link", "settings": { "label": "Women's Fragrances", "url": "/collections/womens-fragrances", "description": "Elegant, expressive fragrance oils inspired by the world's most coveted florals." } },
+        { "type": "collection-link", "settings": { "label": "Unisex Perfumes", "url": "/collections/unisex-perfumes", "description": "Versatile blends designed to wear beautifully on any skin." } },
+        { "type": "collection-link", "settings": { "label": "Discovery Set", "url": "/collections/discovery-set", "description": "Sample our signature scents before committing to a full-size bottle." } }
       ]
     }
   ]

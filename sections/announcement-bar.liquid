@@ -1,0 +1,43 @@
+<div class="announcement-bar full-width">
+  {%- if section.settings.text != blank -%}
+    <p class="announcement-bar__text">{{ section.settings.text }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .announcement-bar {
+    background: var(--color-gold-dark);
+  }
+
+  .announcement-bar__text {
+    margin: 0;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    color: var(--color-background);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .announcement-bar__text {
+      font-size: 11px;
+      padding: 0.5rem 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.announcement_bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "Complimentary Free Shipping on All Orders Over $99"
+    }
+  ]
+}
+{% endschema %}

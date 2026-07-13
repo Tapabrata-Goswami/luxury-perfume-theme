@@ -1,16 +1,118 @@
 <div class="occasions">
+  {%- if section.settings.eyebrow != blank -%}
+    <div class="occasions__eyebrow">{{ section.settings.eyebrow }}</div>
+  {%- endif -%}
   {%- if section.settings.heading != blank -%}
     <h2 class="occasions__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
-  <div class="occasions__grid">
-    {% content_for 'blocks' %}
+  <div class="occasions__path" data-occasions-path>
+    <svg class="occasions__wave" data-occasions-wave aria-hidden="true">
+      <defs>
+        <filter id="occasions-hand-drawn-{{ section.id }}" x="-10%" y="-60%" width="120%" height="220%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+      <path data-occasions-wave-path filter="url(#occasions-hand-drawn-{{ section.id }})" />
+    </svg>
+    <div class="occasions__grid">
+      {% content_for 'blocks' %}
+    </div>
   </div>
 </div>
+
+{% javascript %}
+  (function () {
+    function initOccasionsWave(container) {
+      var pathEl = container.querySelector('[data-occasions-path]');
+      var svg = container.querySelector('[data-occasions-wave]');
+      var path = container.querySelector('[data-occasions-wave-path]');
+      var circles = container.querySelectorAll('.occasion__circle');
+      if (!pathEl || !svg || !path || circles.length < 2) return;
+
+      function draw() {
+        var containerRect = pathEl.getBoundingClientRect();
+        if (containerRect.width === 0 || containerRect.height === 0) return;
+
+        var points = Array.prototype.map.call(circles, function (circle) {
+          var r = circle.getBoundingClientRect();
+          return {
+            x: r.left + r.width / 2 - containerRect.left,
+            y: r.top + r.height / 2 - containerRect.top
+          };
+        });
+
+        svg.setAttribute('viewBox', '0 0 ' + containerRect.width + ' ' + containerRect.height);
+        svg.style.width = containerRect.width + 'px';
+        svg.style.height = containerRect.height + 'px';
+
+        var d = 'M' + points[0].x + ',' + points[0].y;
+        for (var i = 1; i < points.length; i++) {
+          var prev = points[i - 1];
+          var curr = points[i];
+          var midX = (prev.x + curr.x) / 2;
+          d += ' C' + midX + ',' + prev.y + ' ' + midX + ',' + curr.y + ' ' + curr.x + ',' + curr.y;
+        }
+        path.setAttribute('d', d);
+      }
+
+      draw();
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(draw, 150);
+      });
+    }
+
+    function initOccasionsToggle(container) {
+      var occasions = container.querySelectorAll('.occasion');
+      occasions.forEach(function (occasion) {
+        var circle = occasion.querySelector('.occasion__circle');
+        if (!circle || circle.dataset.toggleBound) return;
+        circle.dataset.toggleBound = 'true';
+        circle.addEventListener('click', function () {
+          var willOpen = !occasion.classList.contains('is-open');
+          occasions.forEach(function (other) {
+            if (other !== occasion) {
+              other.classList.remove('is-open');
+              var otherCircle = other.querySelector('.occasion__circle');
+              if (otherCircle) otherCircle.blur();
+            }
+          });
+          occasion.classList.toggle('is-open', willOpen);
+          if (!willOpen) circle.blur();
+        });
+      });
+    }
+
+    document.querySelectorAll('.occasions').forEach(function (container) {
+      initOccasionsWave(container);
+      initOccasionsToggle(container);
+    });
+
+    document.addEventListener('shopify:section:load', function (event) {
+      var target = event.target.querySelector('.occasions');
+      if (target) {
+        initOccasionsWave(target);
+        initOccasionsToggle(target);
+      }
+    });
+  })();
+{% endjavascript %}
 
 {% stylesheet %}
   .occasions {
     padding: 5.625rem 0;
-    border-top: 1px solid var(--color-border);
+  }
+
+  .occasions__eyebrow {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1.25rem;
   }
 
   .occasions__heading {
@@ -21,15 +123,49 @@
     margin: 0 0 3rem;
   }
 
+  .occasions__path {
+    position: relative;
+    padding: 3rem 1rem 2rem;
+  }
+
+  .occasions__wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill: none;
+    stroke: var(--color-gold-dark);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
   .occasions__grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1.25rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 60px;
   }
 
   @media (max-width: 900px) {
+    .occasions {
+      padding: 1.5rem 0;
+    }
+
+    .occasions__path {
+      padding: 0;
+    }
+
+    .occasions__wave {
+      display: none;
+    }
+
     .occasions__grid {
+      display: grid;
       grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      margin-bottom: 0;
     }
   }
 
@@ -46,9 +182,15 @@
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Made for the Moment"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "Luxury Fragrance Oils for Every Occasion"
+      "default": "Wherever Life Takes You"
     }
   ],
   "blocks": [
@@ -60,11 +202,11 @@
     {
       "name": "t:general.occasions",
       "blocks": [
-        { "type": "occasion", "settings": { "title": "Office", "body": "A refined, subtle presence for the workday — long-lasting without overwhelming a shared room." } },
-        { "type": "occasion", "settings": { "title": "Date Night", "body": "Warm, seductive notes designed to linger close to skin through dinner and beyond." } },
-        { "type": "occasion", "settings": { "title": "Weddings", "body": "Elegant, memorable fragrance oils fit for the most important day on the calendar." } },
-        { "type": "occasion", "settings": { "title": "Everyday", "body": "Effortless, alcohol-free luxury made for daily wear at a fraction of designer prices." } },
-        { "type": "occasion", "settings": { "title": "Luxury Gifting", "body": "Beautifully presented fragrance oils that feel like a designer gift, without the designer price tag." } }
+        { "type": "occasion", "settings": { "title": "Office", "fallback_asset": "workplace.png", "body": "A refined, subtle presence for the workday — long-lasting without overwhelming a shared room." } },
+        { "type": "occasion", "settings": { "title": "Date Night", "fallback_asset": "dinner.png", "body": "Warm, seductive notes designed to linger close to skin through dinner and beyond.", "lowered": true } },
+        { "type": "occasion", "settings": { "title": "Weddings", "fallback_asset": "dance.png", "body": "Elegant, memorable fragrance oils fit for the most important day on the calendar." } },
+        { "type": "occasion", "settings": { "title": "Everyday", "fallback_asset": "everyday.png", "body": "Effortless, alcohol-free luxury made for daily wear at a fraction of designer prices.", "lowered": true } },
+        { "type": "occasion", "settings": { "title": "Luxury Gifting", "fallback_asset": "surprise.png", "body": "Beautifully presented fragrance oils that feel like a designer gift, without the designer price tag." } }
       ]
     }
   ]

@@ -1,37 +1,169 @@
 {% doc %}
-  Renders a single occasion tile (e.g. Office, Date Night) for the occasions section.
+  Renders a single occasion stop (e.g. Office, Date Night) along the occasions
+  path: a gold circle with an icon + title, revealing its description in a
+  tooltip on hover/focus instead of showing it permanently.
 
   @example
   {% content_for 'block', type: 'occasion', id: 'occasion-1' %}
 {% enddoc %}
 
-<div class="occasion" {{ block.shopify_attributes }}>
-  <div class="occasion__title">{{ block.settings.title }}</div>
+<div class="occasion" {% if block.settings.lowered %}style="transform: translateY(70px);"{% endif %} {{ block.shopify_attributes }}>
+  <div class="occasion__circle" tabindex="0">
+    {%- if block.settings.icon != blank -%}
+      {{ block.settings.icon | image_url: width: 80 | image_tag: class: 'occasion__icon', alt: '', loading: 'lazy' }}
+    {%- elsif block.settings.fallback_asset != blank -%}
+      <img class="occasion__icon" src="{{ block.settings.fallback_asset | asset_url }}" alt="" width="34" height="34" loading="lazy">
+    {%- endif -%}
+    <div class="occasion__title">{{ block.settings.title }}</div>
+  </div>
   {%- if block.settings.body != blank -%}
-    <p class="occasion__body">{{ block.settings.body }}</p>
+    <div class="occasion__tooltip">
+      <p class="occasion__body">{{ block.settings.body }}</p>
+    </div>
   {%- endif -%}
 </div>
 
 {% stylesheet %}
   .occasion {
-    padding: 2rem 1.75rem;
-    border: 1px solid var(--color-border);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex: 1 1 0%;
+  }
+
+  .occasion__circle {
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--color-gold-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem;
     text-align: center;
+    outline: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .occasion:hover .occasion__circle,
+  .occasion:focus-within .occasion__circle {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .occasion__icon {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
   }
 
   .occasion__title {
-    font-family: var(--font-heading--family);
-    font-weight: 500;
-    font-size: 21px;
-    color: var(--color-gold);
-    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-background);
+  }
+
+  .occasion__tooltip {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    width: 230px;
+    padding: 1.125rem 1.25rem;
+    background: var(--color-surface-dark);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 2;
+  }
+
+  .occasion__tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-bottom-color: var(--color-surface-dark);
+  }
+
+  .occasion:hover {
+    z-index: 5;
+  }
+
+  .occasion:hover .occasion__tooltip,
+  .occasion:focus-within .occasion__tooltip,
+  .occasion.is-open .occasion__tooltip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
   }
 
   .occasion__body {
-    color: var(--color-secondary-text);
-    font-size: 14px;
-    line-height: 1.7;
     margin: 0;
+    color: var(--color-secondary-text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .occasion {
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      transform: none !important;
+    }
+
+    .occasions__grid > .shopify-block:last-child {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .occasion__circle {
+      width: 120px;
+      height: 120px;
+      cursor: pointer;
+    }
+
+    .occasion__tooltip {
+      position: static;
+      width: 100%;
+      max-width: 220px;
+      max-height: 0;
+      margin-top: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.3s ease;
+    }
+
+    .occasion:hover .occasion__tooltip,
+    .occasion:focus-within .occasion__tooltip {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      max-height: 0;
+      margin-top: 0;
+    }
+
+    .occasion.is-open .occasion__tooltip {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: none;
+      max-height: 260px;
+      margin-top: 0.75rem;
+    }
+
+    .occasion__tooltip::after {
+      display: none;
+    }
   }
 {% endstylesheet %}
 
@@ -39,6 +171,17 @@
 {
   "name": "t:general.occasion",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "t:labels.icon"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "t:labels.fallback_asset",
+      "info": "t:labels.fallback_asset_info"
+    },
     {
       "type": "text",
       "id": "title",
@@ -50,6 +193,12 @@
       "id": "body",
       "label": "t:labels.body",
       "default": "A refined, subtle presence for the workday."
+    },
+    {
+      "type": "checkbox",
+      "id": "lowered",
+      "label": "t:labels.lowered",
+      "default": false
     }
   ],
   "presets": [

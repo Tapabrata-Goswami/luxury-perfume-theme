@@ -10,6 +10,9 @@
   data-no-match-label="{{ 'quiz.no_match' | t }}"
   data-browse-label="{{ 'quiz.browse_all' | t }}"
   data-all-url="{{ section.settings.collection.url | default: routes.all_products_collection_url }}"
+  data-top-notes-label="{{ 'product.top_notes' | t }}"
+  data-heart-notes-label="{{ 'product.heart_notes' | t }}"
+  data-base-notes-label="{{ 'product.base_notes' | t }}"
 >
   <div class="fragrance-quiz__intro" data-quiz-intro>
     {%- if section.settings.eyebrow != blank -%}
@@ -74,16 +77,24 @@
     [
       {%- for product in quiz_products limit: 24 -%}
         {%- assign family_raw = product.metafields.custom.fragrance_family.value | default: '' -%}
+        {%- assign inspired_by_label = '' -%}
+        {%- if product.metafields.custom.inspired_by != blank -%}
+          {%- capture inspired_by_label -%}{{ 'product.inspired_by_html' | t: name: product.metafields.custom.inspired_by }}{%- endcapture -%}
+        {%- endif -%}
         {
           "id": {{ product.id | json }},
           "title": {{ product.title | json }},
           "url": {{ product.url | json }},
-          "image": {{ product.featured_image | image_url: width: 600 | json }},
+          "image": {{ product.featured_image | image_url: width: 900 | json }},
           "price": {{ product.price | json }},
           "compareAtPrice": {{ product.compare_at_price | json }},
           "tags": {{ product.tags | json }},
           "family": {{ family_raw | split: ',' | json }},
-          "tagline": {{ product.metafields.custom.tagline | default: '' | json }}
+          "tagline": {{ product.metafields.custom.tagline | default: '' | json }},
+          "inspiredByLabel": {{ inspired_by_label | json }},
+          "topNotes": {{ product.metafields.custom.top_notes | default: '' | json }},
+          "heartNotes": {{ product.metafields.custom.heart_notes | default: '' | json }},
+          "baseNotes": {{ product.metafields.custom.base_notes | default: '' | json }}
         }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     ]
@@ -95,9 +106,13 @@
     padding: 5.625rem 4rem;
     background:
       radial-gradient(ellipse at top, color-mix(in srgb, var(--color-gold) 14%, transparent), transparent 60%),
-      var(--color-surface-dark);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+      linear-gradient(
+        to bottom,
+        var(--color-background) 0%,
+        var(--color-surface-dark) 32%,
+        var(--color-surface-dark) 68%,
+        var(--color-background) 100%
+      );
   }
 
   .fragrance-quiz__intro {
@@ -146,6 +161,7 @@
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
+    border-radius: 4px;
   }
 
   .fragrance-quiz__questions {
@@ -201,6 +217,7 @@
     font-family: inherit;
     text-align: center;
     cursor: pointer;
+    border-radius: 4px;
     transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
   }
 
@@ -211,7 +228,6 @@
 
   .fragrance-quiz__result {
     position: relative;
-    max-width: 640px;
     margin: 3rem auto 0;
     text-align: center;
   }
@@ -272,8 +288,8 @@
 
   .fragrance-quiz__result-image {
     display: block;
-    flex: 0 0 160px;
-    aspect-ratio: 1 / 1;
+    flex: 0 0 42%;
+    aspect-ratio: 1 / 1.05;
     overflow: hidden;
     background: var(--color-surface);
     border-radius: 4px;
@@ -289,11 +305,57 @@
     min-width: 0;
   }
 
+  .fragrance-quiz__result-inspired {
+    color: var(--color-muted);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
   .fragrance-quiz__result-title {
     font-family: var(--font-heading--family);
     font-weight: 500;
     font-size: 26px;
     margin: 0 0 0.5rem;
+  }
+
+  .fragrance-quiz__result-family {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .fragrance-quiz__result-family-pill {
+    border: 1px solid var(--color-border);
+    color: var(--color-gold);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .fragrance-quiz__result-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .fragrance-quiz__result-notes-line {
+    color: var(--color-secondary-text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .fragrance-quiz__result-notes-line span {
+    color: var(--color-gold);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 0.5rem;
   }
 
   .fragrance-quiz__result-tagline {
@@ -327,6 +389,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    border-radius: 4px;
   }
 
   .fragrance-quiz__result-empty {
@@ -355,7 +418,7 @@
 
     .fragrance-quiz__result-image {
       flex: 0 0 auto;
-      width: 160px;
+      width: 100%;
     }
   }
 {% endstylesheet %}
@@ -381,6 +444,9 @@
     const noMatchLabel = root.getAttribute('data-no-match-label') || "We couldn't find a match.";
     const browseLabel = root.getAttribute('data-browse-label') || 'Browse All';
     const allUrl = root.getAttribute('data-all-url') || '/collections/all';
+    const topNotesLabel = root.getAttribute('data-top-notes-label') || 'Top Notes';
+    const heartNotesLabel = root.getAttribute('data-heart-notes-label') || 'Heart Notes';
+    const baseNotesLabel = root.getAttribute('data-base-notes-label') || 'Base Notes';
 
     let products = [];
     try {
@@ -487,13 +553,43 @@
         ? '<span class="fragrance-quiz__result-price-compare">' + formatMoney(product.compareAtPrice) + '</span><span>' + formatMoney(product.price) + '</span>'
         : '<span>' + formatMoney(product.price) + '</span>';
 
+      const familyMarkup = (product.family || [])
+        .map((note) => note.trim())
+        .filter(Boolean)
+        .map((note) => '<span class="fragrance-quiz__result-family-pill">' + escapeHtml(note) + '</span>')
+        .join('');
+
+      const notesLines = [
+        product.topNotes ? { label: topNotesLabel, value: product.topNotes } : null,
+        product.heartNotes ? { label: heartNotesLabel, value: product.heartNotes } : null,
+        product.baseNotes ? { label: baseNotesLabel, value: product.baseNotes } : null,
+      ].filter(Boolean);
+
+      const notesMarkup = notesLines.length
+        ? '<div class="fragrance-quiz__result-notes">' +
+            notesLines
+              .map(
+                (line) =>
+                  '<div class="fragrance-quiz__result-notes-line"><span>' +
+                  escapeHtml(line.label) +
+                  '</span> ' +
+                  escapeHtml(line.value) +
+                  '</div>'
+              )
+              .join('') +
+          '</div>'
+        : '';
+
       resultCard.innerHTML =
         '<a href="' + escapeHtml(product.url) + '" class="fragrance-quiz__result-image">' +
-          (product.image ? '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.title) + '" width="160" height="160" loading="lazy">' : '') +
+          (product.image ? '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.title) + '" width="420" height="441" loading="lazy">' : '') +
         '</a>' +
         '<div class="fragrance-quiz__result-info">' +
+          (product.inspiredByLabel ? '<div class="fragrance-quiz__result-inspired">' + escapeHtml(product.inspiredByLabel) + '</div>' : '') +
           '<h3 class="fragrance-quiz__result-title">' + escapeHtml(product.title) + '</h3>' +
           (product.tagline ? '<p class="fragrance-quiz__result-tagline">' + escapeHtml(product.tagline) + '</p>' : '') +
+          (familyMarkup ? '<div class="fragrance-quiz__result-family">' + familyMarkup + '</div>' : '') +
+          notesMarkup +
           '<div class="fragrance-quiz__result-price">' + priceMarkup + '</div>' +
           '<a href="' + escapeHtml(product.url) + '" class="fragrance-quiz__result-button">' + escapeHtml(shopLabel) + '</a>' +
         '</div>';
@@ -534,6 +630,31 @@
         showQuestion(0);
       });
     }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.gsap || !window.ScrollTrigger) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.querySelectorAll('.fragrance-quiz').forEach(function (section) {
+      var targets = section.querySelectorAll(
+        '.fragrance-quiz__eyebrow, .fragrance-quiz__heading, .fragrance-quiz__subheading, .fragrance-quiz__start'
+      );
+      if (!targets.length) return;
+
+      gsap.from(targets, {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: 'power2.out',
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+        },
+      });
+    });
   });
 {% endjavascript %}
 

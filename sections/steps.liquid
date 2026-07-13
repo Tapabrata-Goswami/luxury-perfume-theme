@@ -8,20 +8,74 @@
     {%- endif -%}
   </div>
 
-  <div class="steps__grid">
-    <div class="steps__line"></div>
+  <div class="steps__grid" data-steps-grid>
+    <svg class="steps__line" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
+      <path class="steps__line-path steps__line-path--1" d="M 166 20 Q 250 14, 333 20 T 500 20" />
+      <path class="steps__line-path steps__line-path--2" d="M 500 20 Q 583 26, 666 20 T 833 20" />
+    </svg>
+    <svg class="steps__line steps__line--mobile" data-steps-line-mobile aria-hidden="true">
+      <path class="steps__line-path steps__line-path--1" pathLength="100" data-steps-line-mobile-path-1 />
+      <path class="steps__line-path steps__line-path--2" pathLength="100" data-steps-line-mobile-path-2 />
+    </svg>
     {%- for block in section.blocks -%}
       {% render block %}
     {%- endfor -%}
   </div>
 </div>
 
+{% javascript %}
+  (function () {
+    function initStepsMobileLine(section) {
+      var grid = section.querySelector('[data-steps-grid]');
+      var svg = section.querySelector('[data-steps-line-mobile]');
+      var path1 = section.querySelector('[data-steps-line-mobile-path-1]');
+      var path2 = section.querySelector('[data-steps-line-mobile-path-2]');
+      var circles = section.querySelectorAll('.step__circle');
+      if (!grid || !svg || !path1 || !path2 || circles.length < 3) return;
+
+      function draw() {
+        var gridRect = grid.getBoundingClientRect();
+        if (gridRect.width === 0 || gridRect.height === 0) return;
+
+        var points = Array.prototype.map.call(circles, function (circle) {
+          var r = circle.getBoundingClientRect();
+          return {
+            x: r.left + r.width / 2 - gridRect.left,
+            y: r.top + r.height / 2 - gridRect.top
+          };
+        });
+
+        svg.setAttribute('viewBox', '0 0 ' + gridRect.width + ' ' + gridRect.height);
+        svg.style.width = gridRect.width + 'px';
+        svg.style.height = gridRect.height + 'px';
+
+        path1.setAttribute('d', 'M ' + points[0].x + ',' + points[0].y + ' L ' + points[1].x + ',' + points[1].y);
+        path2.setAttribute('d', 'M ' + points[1].x + ',' + points[1].y + ' L ' + points[2].x + ',' + points[2].y);
+      }
+
+      draw();
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(draw, 150);
+      });
+    }
+
+    document.querySelectorAll('.steps').forEach(initStepsMobileLine);
+
+    document.addEventListener('shopify:section:load', function (event) {
+      var target = event.target.querySelector('.steps');
+      if (target) initStepsMobileLine(target);
+    });
+  })();
+{% endjavascript %}
+
 {% stylesheet %}
   .steps {
     padding: 6.25rem 4rem;
     background: var(--color-background);
     border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
   }
 
   .steps__header {
@@ -55,11 +109,50 @@
 
   .steps__line {
     position: absolute;
-    top: 26px;
-    left: 16.6%;
-    right: 16.6%;
-    height: 1px;
-    background: rgba(196, 161, 90, 0.3);
+    top: 12px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    fill: none;
+    stroke: var(--color-gold-dark);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .steps__line--mobile {
+    display: none;
+  }
+
+  .steps__line-path {
+    stroke-dasharray: 335;
+  }
+
+  .steps__line-path--1 {
+    animation: steps-line-seg1-draw 6s ease-in-out infinite;
+  }
+
+  .steps__line-path--2 {
+    animation: steps-line-seg2-draw 6s ease-in-out infinite;
+  }
+
+  @keyframes steps-line-seg1-draw {
+    0%, 8% {
+      stroke-dashoffset: 335;
+    }
+    30%, 100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes steps-line-seg2-draw {
+    0%, 36% {
+      stroke-dashoffset: 335;
+    }
+    58%, 100% {
+      stroke-dashoffset: 0;
+    }
   }
 
   @media (max-width: 700px) {
@@ -73,13 +166,17 @@
       gap: 1.75rem;
     }
 
-    .steps__line {
+    .steps__line:not(.steps__line--mobile) {
       display: none;
     }
 
-    .steps__grid > *:nth-child(n + 3) {
-      padding-top: 1.75rem;
-      border-top: 1px solid var(--color-border);
+    .steps__line--mobile {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
   }
 {% endstylesheet %}
@@ -110,9 +207,9 @@
     {
       "name": "t:general.steps",
       "blocks": [
-        { "type": "step", "settings": { "icon": "droplet", "number": "01", "title": "Apply to Pulse Points", "body": "Wrists, neck, behind the ears, and inner elbows — warmth helps the oil bloom." } },
-        { "type": "step", "settings": { "icon": "hourglass", "number": "02", "title": "Let It Develop", "body": "Give the oil a few minutes to settle into skin before layering scents." } },
-        { "type": "step", "settings": { "icon": "refresh", "number": "03", "title": "Refresh Throughout the Day", "body": "Oils wear close to skin — a light reapplication midday keeps it alive." } }
+        { "type": "step", "settings": { "fallback_asset": "perfume-bottle.png", "title": "Apply to Pulse Points", "body": "Wrists, neck, behind the ears, and inner elbows — warmth helps the oil bloom.", "glow_order": "1" } },
+        { "type": "step", "settings": { "fallback_asset": "drop.png", "title": "Let It Develop", "body": "Give the oil a few minutes to settle into skin before layering scents.", "glow_order": "2" } },
+        { "type": "step", "settings": { "fallback_asset": "day-and-night.png", "title": "Refresh Throughout the Day", "body": "Oils wear close to skin — a light reapplication midday keeps it alive.", "glow_order": "3" } }
       ]
     }
   ]

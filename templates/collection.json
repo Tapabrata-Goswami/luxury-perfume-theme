@@ -3,9 +3,7 @@
     "collection-banner": {
       "type": "collection-banner",
       "settings": {
-        "eyebrow": "Discover",
-        "heading": "Five Inspired Blends",
-        "description": "Saint Samson's luxury perfume oil collection features handcrafted parfum oils inspired by iconic fragrances from the world's most celebrated perfume houses. Each fragrance oil is blended in small batches using premium ingredients to deliver exceptional longevity, rich projection, and an unforgettable scent experience. Whether you enjoy woody, gourmand, floral, fruity, or amber fragrances, our collection offers a luxury alternative designed for everyday wear."
+        "heading": "Five Inspired Blends"
       }
     },
     "collection-grid": {
@@ -14,11 +12,11 @@
     "explore-collections": {
       "type": "explore-collections",
       "blocks": {
-        "collection-link-1": { "type": "collection-link", "settings": { "label": "Best Sellers", "url": "/collections/best-sellers" } },
-        "collection-link-2": { "type": "collection-link", "settings": { "label": "Men's Fragrances", "url": "/collections/mens-fragrances" } },
-        "collection-link-3": { "type": "collection-link", "settings": { "label": "Women's Fragrances", "url": "/collections/womens-fragrances" } },
-        "collection-link-4": { "type": "collection-link", "settings": { "label": "Unisex Perfumes", "url": "/collections/unisex-perfumes" } },
-        "collection-link-5": { "type": "collection-link", "settings": { "label": "Discovery Set", "url": "/collections/discovery-set" } }
+        "collection-link-1": { "type": "collection-link", "settings": { "label": "Best Sellers", "url": "/collections/best-sellers", "description": "Our most-loved fragrance oils, chosen again and again by returning customers." } },
+        "collection-link-2": { "type": "collection-link", "settings": { "label": "Men's Fragrances", "url": "/collections/mens-fragrances", "description": "Bold, grounded blends inspired by iconic masculine fragrance houses." } },
+        "collection-link-3": { "type": "collection-link", "settings": { "label": "Women's Fragrances", "url": "/collections/womens-fragrances", "description": "Elegant, expressive fragrance oils inspired by the world's most coveted florals." } },
+        "collection-link-4": { "type": "collection-link", "settings": { "label": "Unisex Perfumes", "url": "/collections/unisex-perfumes", "description": "Versatile blends designed to wear beautifully on any skin." } },
+        "collection-link-5": { "type": "collection-link", "settings": { "label": "Discovery Set", "url": "/collections/discovery-set", "description": "Sample our signature scents before committing to a full-size bottle." } }
       },
       "block_order": ["collection-link-1", "collection-link-2", "collection-link-3", "collection-link-4", "collection-link-5"]
     },

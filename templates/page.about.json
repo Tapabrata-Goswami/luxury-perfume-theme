@@ -1,22 +1,72 @@
 {
   "sections": {
     "story-intro": {
-      "type": "story-intro"
+      "type": "story-intro",
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading_line1": "Every Great Fragrance Begins With",
+        "heading_line2": "a Memory.",
+        "heading_emphasis": "",
+        "heading_line2_suffix": ""
+      }
     },
     "story-split": {
-      "type": "story-split"
+      "type": "story-split",
+      "settings": {
+        "heading": "Founded in Houston, Texas",
+        "body_1": "Saint Samson Parfums is an independent luxury fragrance house built on a simple belief: exceptional fragrance should be an experience everyone can enjoy.",
+        "body_2": "We believe fragrance is more than a scent. It is confidence. It is identity. It is emotion. It is the invisible signature that lingers long after you’ve left the room."
+      }
+    },
+    "story-narrative": {
+      "type": "story-narrative",
+      "settings": {
+        "body": "<p>Saint Samson Parfums was created from a passion for the artistry of perfumery and a desire to make luxurious fragrance experiences more accessible without compromising on quality, craftsmanship, or sophistication. Every creation reflects our commitment to excellence, from carefully selected ingredients and refined compositions to elegant presentation and lasting performance.</p><p>From our home in Houston, we draw inspiration from a city known for its diversity, ambition, and global perspective. Those values are woven into every fragrance we create, blending timeless elegance with modern sophistication for fragrance lovers around the world.</p><p>Our collection celebrates the beauty of fine perfumery through rich woods, warm amber, luminous florals, vibrant fruits, creamy vanilla, sensual musks, and captivating spices. Every fragrance is thoughtfully composed to evolve throughout the day, revealing layers of depth, character, and refinement with every wear.</p><p>We believe true luxury is not defined by exclusivity alone. It is defined by exceptional craftsmanship, meticulous attention to detail, and the unforgettable emotions a fragrance can inspire. Every Saint Samson creation is designed to deliver remarkable longevity, beautiful projection, and an elevated scent experience that becomes part of your personal story.</p><p>Whether discovering us for the first time or adding another favorite to your collection, you are joining a community that appreciates elegance, individuality, and timeless style.</p><p>From Houston, Texas, to fragrance lovers around the world, Saint Samson Parfums is committed to creating luxurious perfume oils and fine fragrances that leave a lasting impression, one unforgettable scent at a time.</p>",
+        "closing_line_1": "Welcome to Saint Samson Parfums.",
+        "closing_line_2": "Crafted for the Unforgettable."
+      }
     },
     "values": {
       "type": "values",
       "blocks": {
-        "value-1": { "type": "value", "settings": { "number": "01", "title": "No Shortcuts", "body": "Every ingredient is sourced directly, never through a fragrance house's stock blends." } },
-        "value-2": { "type": "value", "settings": { "number": "02", "title": "Small Batches", "body": "No batch exceeds 200 bottles. When it's gone, it's gone until the next run." } },
-        "value-3": { "type": "value", "settings": { "number": "03", "title": "One Signature", "body": "We'd rather perfect nine scents than release ninety mediocre ones." } }
+        "value-1": {
+          "type": "value",
+          "settings": {
+            "number": "01",
+            "title": "No Shortcuts",
+            "body": "Every ingredient is sourced directly, never through a fragrance house's stock blends."
+          }
+        },
+        "value-2": {
+          "type": "value",
+          "settings": {
+            "number": "02",
+            "title": "Small Batches",
+            "body": "No batch exceeds 200 bottles. When it's gone, it's gone until the next run."
+          }
+        },
+        "value-3": {
+          "type": "value",
+          "settings": {
+            "number": "03",
+            "title": "One Signature",
+            "body": "We'd rather perfect nine scents than release ninety mediocre ones."
+          }
+        }
       },
-      "block_order": ["value-1", "value-2", "value-3"]
+      "block_order": [
+        "value-1",
+        "value-2",
+        "value-3"
+      ]
     },
-    "quote": {
-      "type": "quote"
+    "cta-banner": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Welcome to Saint Samson Parfums. Crafted for the Unforgettable.",
+        "button_text": "Shop the Collection",
+        "button_link": "/collections/all"
+      }
     },
     "fragrance-quiz": {
       "type": "fragrance-quiz",
@@ -67,14 +117,19 @@
           }
         }
       },
-      "block_order": ["question-1", "question-2", "question-3"]
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3"
+      ]
     }
   },
   "order": [
     "story-intro",
     "story-split",
+    "story-narrative",
     "values",
-    "quote",
+    "cta-banner",
     "fragrance-quiz"
   ]
 }

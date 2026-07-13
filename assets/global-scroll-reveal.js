@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  var excludedClasses = ['image-with-text'];
+  var excludedClasses = ['image-with-text', 'fragrance-quiz'];
 
   document.querySelectorAll('.shopify-section > *').forEach(function (el) {
     if (el.closest('header, footer')) return;

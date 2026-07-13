@@ -1,0 +1,48 @@
+{% doc %}
+  Renders a category heading divider between groups of faq-item blocks in
+  the FAQ section's block list.
+
+  @example
+  {% content_for 'block', type: 'faq-category', id: 'faq-category-1' %}
+{% enddoc %}
+
+<div class="faq-category" {{ block.shopify_attributes }}>
+  <h3 class="faq-category__title">{{ block.settings.title }}</h3>
+</div>
+
+{% stylesheet %}
+  .faq-category {
+    margin-top: 2.5rem;
+  }
+
+  .faq-category:first-child {
+    margin-top: 0;
+  }
+
+  .faq-category__title {
+    color: var(--color-gold);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.faq_category",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Category"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.faq_category"
+    }
+  ]
+}
+{% endschema %}
